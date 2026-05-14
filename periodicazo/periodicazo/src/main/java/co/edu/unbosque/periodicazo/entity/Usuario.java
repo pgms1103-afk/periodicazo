@@ -65,13 +65,13 @@ public class Usuario implements UserDetails {
 	@Override
 	public @Nullable String getPassword() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.password;
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.username;
 	}
 
 

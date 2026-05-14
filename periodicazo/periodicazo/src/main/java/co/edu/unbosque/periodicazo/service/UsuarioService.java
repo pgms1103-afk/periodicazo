@@ -26,10 +26,12 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO>{
 
 	@Override
 	public int create(UsuarioDTO data) {
-		Usuario entity = mapper.map(data, Usuario.class);
+		Usuario entity = new Usuario();
 		if(findUsernameAlreadyTaken(entity.getUsername())) {
 			return 1;
-		} else{ entity.setPassword(passwordEncoder.encode(entity.getPassword())); }
+		} else{ 
+			entity.setUsername(data.getUsername());
+			entity.setPassword(passwordEncoder.encode(data.getPassword())); }
 		 if (data.getRole() != null) {
 		        entity.setRole(data.getRole());
 		      }
@@ -52,14 +54,19 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO>{
 	@Override
 	public int updateByID(Long id, UsuarioDTO data) {
 	    Optional<Usuario> found = usuarioRepo.findById(id);
-	    Usuario temp = found.get();
-	      temp.setUsername(data.getUsername());
-	      temp.setPassword(passwordEncoder.encode(data.getPassword()));
-	      if (data.getRole() != null) {
-	        temp.setRole(data.getRole());
-	      }
-	      usuarioRepo.save(temp);
-		return 0;
+	    if(found.isPresent()) {
+	    	Usuario temp = found.get();
+		      temp.setUsername(data.getUsername());
+		      temp.setPassword(passwordEncoder.encode(data.getPassword()));
+		      if (data.getRole() != null) {
+		        temp.setRole(data.getRole());
+		      }
+		      usuarioRepo.save(temp);
+			return 0;
+	    }else {
+	    	return 1;
+	    }
+	    
 	}
 
 	@Override
@@ -76,7 +83,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO>{
 	
 	
 	public boolean findUsernameAlreadyTaken(String newUser) {
-	    Optional<Usuario> found = usuarioRepo.findByNombreUsuario(newUser);
+	    Optional<Usuario> found = usuarioRepo.findByUsername(newUser);
 	    if (found.isPresent()) {
 	      return true;
 	    } else {
@@ -85,7 +92,7 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO>{
 	  }
 	
 	public UsuarioDTO getLoginUser(String username) {
-		Optional<Usuario> entity = usuarioRepo.findByNombreUsuario(username);
+		Optional<Usuario> entity = usuarioRepo.findByUsername(username);
 				if(entity.isEmpty()) {
 					throw new UsernameNotFoundException("Usuario no encontrado");
 				}

@@ -31,7 +31,7 @@ public class LoadDatabase {
   CommandLineRunner initDatabase(UsuarioRepository userRepo, PasswordEncoder passwordEncoder) {
 
     return args -> {
-      Optional<Usuario> found = userRepo.findByNombreUsuario("admin");
+      Optional<Usuario> found = userRepo.findByUsername("admin");
       if (found.isPresent()) {
         log.info("El administrador ya existe, omitiendo la creación del administrador...");
       } else {
@@ -39,7 +39,7 @@ public class LoadDatabase {
         userRepo.save(adminUser);
         log.info("Precargando usuario administrador");
       }
-      Optional<Usuario> found2 = userRepo.findByNombreUsuario("normaluser");
+      Optional<Usuario> found2 = userRepo.findByUsername("normaluser");
       if (found2.isPresent()) {
         log.info("El usuario normal ya existe, omitiendo la creación del usuario normal...");
       } else {

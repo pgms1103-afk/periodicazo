@@ -8,6 +8,6 @@ import co.edu.unbosque.periodicazo.entity.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	
-	public Optional<Usuario> findByNombreUsuario(String nombreUsuario);
+	public Optional<Usuario> findByUsername(String username);
 	
 }
