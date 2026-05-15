@@ -1,0 +1,86 @@
+
+:root {
+  --blanco-hueso: #f4f1ea;
+  --negro-periodico: #1a1a1a;
+  --gris-oscuro: #333333;
+  --gris-claro: #d1d1d1;
+  --borde-fino: 1px solid #1a1a1a;
+  --borde-grueso: 3px solid #1a1a1a;
+}
+
+body {
+  margin: 0;
+  background-color: var(--blanco-hueso);
+  color: var(--negro-periodico);
+
+  font-family: 'Georgia', 'Times New Roman', Times, serif;
+  line-height: 1.6;
+}
+
+
+.tarjeta-vintage {
+  background-color: var(--blanco-hueso);
+  border: var(--borde-fino);
+  padding: 20px;
+  position: relative;
+}
+
+
+.sombra-retro {
+  box-shadow: 8px 8px 0px 0px var(--negro-periodico);
+}
+
+.boton-retro {
+  background-color: var(--negro-periodico);
+  color: var(--blanco-hueso);
+  border: none;
+  padding: 10px 20px;
+  font-family: 'Arial Black', sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.boton-retro:hover {
+  background-color: var(--gris-oscuro);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px 0px #000;
+}
+
+.entrada-vintage {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  border-bottom: var(--borde-grueso);
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--negro-periodico);
+  box-sizing: border-box;
+}
+
+.entrada-vintage:focus {
+  outline: none;
+  background-color: rgba(0,0,0,0.05);
+}
+
+.boton-volver {
+  background-color: transparent;
+  color: var(--negro-periodico);
+  border: none;
+  border-bottom: 2px solid var(--negro-periodico);
+  font-family: 'Arial Black', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 2px 0;
+  margin-bottom: 20px;
+  display: inline-block;
+  transition: all 0.2s;
+}
+
+.boton-volver:hover {
+  color: var(--gris-oscuro);
+  border-bottom-color: transparent;
+  transform: translateX(-5px);
+}

@@ -1,0 +1,32 @@
+<div class="contenedor-modulo">
+  <button class="boton-volver" routerLink="/horoscopos"> ← Regresar</button>
+  <div class="encabezado-modulo">
+    <h2 class="titulo-editor">Redactar Prediccion Astral</h2>
+  </div>
+
+  <form class="tarjeta-vintage sombra-retro formulario-edicion">
+    <div class="grupo-formulario">
+      <label class="etiqueta-formulario">Signo del Zodiaco</label>
+      <select class="entrada-vintage select-retro">
+        <option>Aries</option>
+        <option>Tauro</option>
+        <option>Geminis</option>
+        <option>Cancer</option>
+        <option>Leo</option>
+        <option>Virgo</option>
+      </select>
+    </div>
+
+    <div class="grupo-formulario">
+      <label class="etiqueta-formulario">Pronostico Semanal (Salud, Dinero, Amor)</label>
+      <textarea class="entrada-vintage area-texto-larga" placeholder="Escriba el presagio astral detallado aqui..."></textarea>
+    </div>
+
+    <div class="acciones-formulario">
+      <div class="acciones-formulario">
+        <button type="button" class="boton-retro-secundario" routerLink="/horoscopos">Descartar Borrador</button>
+        <button type="button" class="boton-retro" routerLink="/horoscopos">Imprimir Prediccion</button>
+      </div>
+    </div>
+  </form>
+</div>

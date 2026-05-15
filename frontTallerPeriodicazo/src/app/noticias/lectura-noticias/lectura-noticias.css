@@ -1,0 +1,79 @@
+.articulo-completo {
+  padding: 60px;
+  margin-bottom: 50px;
+}
+
+.cabecera-articulo {
+  text-align: center;
+  border-bottom: var(--borde-grueso);
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+}
+
+.titular-noticia {
+  font-size: 52px;
+  font-weight: 900;
+  line-height: 1;
+  margin: 15px 0;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+}
+
+.linea-info-autor {
+  font-family: sans-serif;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  color: var(--gris-oscuro);
+}
+
+
+.cuerpo-periodico {
+  column-count: 2;
+  column-gap: 50px;
+  column-rule: var(--borde-fino);
+  text-align: justify;
+}
+
+
+.letra-capital {
+  float: left;
+  font-size: 85px;
+  line-height: 70px;
+  padding-top: 4px;
+  padding-right: 10px;
+  font-weight: 900;
+  font-family: 'Times New Roman', serif;
+}
+
+.parrafo-introduccion {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.cita-destacada {
+  column-span: all;
+  font-style: italic;
+  font-size: 28px;
+  text-align: center;
+  border-top: var(--borde-fino);
+  border-bottom: var(--borde-fino);
+  padding: 30px 0;
+  margin: 40px 0;
+  font-weight: bold;
+  color: var(--negro-periodico);
+}
+
+@media (max-width: 900px) {
+  .cuerpo-periodico {
+    column-count: 1;
+  }
+  .titular-noticia {
+    font-size: 35px;
+  }
+}

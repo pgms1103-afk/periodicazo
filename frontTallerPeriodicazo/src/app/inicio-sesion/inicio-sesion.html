@@ -1,0 +1,44 @@
+<div class="pantalla-centrada">
+  <div class="tarjeta-vintage sombra-retro caja-autenticacion">
+    <div class="encabezado-auth">
+      <h1 class="titulo-marca">Periodicazo</h1>
+
+      <div class="selector-pestanas">
+        <button class="pestana" [class.activa]="vistaLogin" (click)="cambiarPestana(true)">Ingresar</button>
+        <button class="pestana" [class.activa]="!vistaLogin" (click)="cambiarPestana(false)">Registro</button>
+      </div>
+    </div>
+
+    <div class="contenedor-formulario" *ngIf="vistaLogin">
+      <form class="formulario-auth">
+        <div class="grupo-formulario">
+          <label class="etiqueta-formulario">Correo de Lector</label>
+          <input type="email" class="entrada-vintage" placeholder="correo@ejemplo.com">
+        </div>
+        <div class="grupo-formulario">
+          <label class="etiqueta-formulario">Contrasena</label>
+          <input type="password" class="entrada-vintage" placeholder="••••••••">
+        </div>
+        <button type="button" class="boton-retro boton-bloque" routerLink="/panel-principal">Entrar a la Redaccion</button>
+      </form>
+    </div>
+
+    <div class="contenedor-formulario" *ngIf="!vistaLogin">
+      <form class="formulario-auth">
+        <div class="grupo-formulario">
+          <label class="etiqueta-formulario">Nombre o Seudonimo</label>
+          <input type="text" class="entrada-vintage" placeholder="Ej: Lector23">
+        </div>
+        <div class="grupo-formulario">
+          <label class="etiqueta-formulario">Correo Electronico</label>
+          <input type="email" class="entrada-vintage" placeholder="usuario@diario.com">
+        </div>
+        <div class="grupo-formulario">
+          <label class="etiqueta-formulario">Contrasena</label>
+          <input type="password" class="entrada-vintage" placeholder="Minimo 8 caracteres">
+        </div>
+        <button type="button" class="boton-retro boton-bloque" routerLink="/panel-principal">Suscribirse al Diario</button>
+      </form>
+    </div>
+  </div>
+</div>
