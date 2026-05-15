@@ -8,7 +8,7 @@ import { EditorHoroscopos } from './horoscopos/editor-horoscopos/editor-horoscop
 import { ListaUsuarios } from './usuarios/lista-usuarios/lista-usuarios';
 import { ComentariosNoticias } from './noticias/comentarios-noticias/comentarios-noticias';
 import { LecturaNoticia } from './noticias/lectura-noticias/lectura-noticias';
-import { LecturaHoroscopos } from './horoscopos/lectura-horoscopos/lectura-horoscopos';
+import { LecturaHoroscopo } from './horoscopos/lectura-horoscopos/lectura-horoscopos';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'inicio-sesion', pathMatch: 'full' },
@@ -22,6 +22,6 @@ export const routes: Routes = [
 
   { path: 'comentarios', component: ComentariosNoticias },
   { path: 'lectura-noticia', component: LecturaNoticia },
-  { path: 'lectura-horoscopo', component: LecturaHoroscopos },
+  { path: 'lectura-horoscopo', component: LecturaHoroscopo },
   { path: '**', redirectTo: 'inicio-sesion' }
 ];

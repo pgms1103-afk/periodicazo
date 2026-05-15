@@ -7,7 +7,7 @@ import { ComentariosNoticias } from '../../noticias/comentarios-noticias/comenta
   selector: 'app-lectura-horoscopo',
   standalone: true,
   imports: [RouterModule, CommonModule, ComentariosNoticias],
-  templateUrl: './lectura-horoscopo.html',
-  styleUrls: ['./lectura-horoscopo.css']
+  templateUrl: './lectura-horoscopos.html',
+  styleUrls: ['./lectura-horoscopos.css']
 })
 export class LecturaHoroscopo {}
