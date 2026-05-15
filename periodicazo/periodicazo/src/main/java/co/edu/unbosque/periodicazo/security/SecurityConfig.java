@@ -55,11 +55,25 @@ public class SecurityConfig {
 				.permitAll().requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
 				.permitAll()// Si la URL coiiuncide con eso, se le permite a todos. // Si la// URL coiiuncide con eso.
 				
-				.requestMatchers("/private/publicacion/editarpublicacion", "/private/publicacion/mostrarportipo", 
+				.requestMatchers("/private/publicacion/mostrarportipo", 
+						"/private/comentario/mostrarportitulo", 
+						"/private/comentario/mostrarcomentarios" )
+				.hasAnyRole("COMENTADOR", "USUARIO")
+				
+				.requestMatchers("/private/publicacion/editarpublicacion", 
+						"/private/publicacion/mostrarportipo", 
 						"/private/publicacion/mostrartodo")
 				.hasAnyRole("EDITOR", "ADMIN")
 				
-				.requestMatchers("/admin/**", "/private/publicacion/**")
+				.requestMatchers("/private/comentario/crearcomentario", 
+						"/private/comentario/mostrarportitulo", 
+						"/private/publicacion/actualizarcomentario",
+						"/private/comentario/mostrarcomentarios")
+				.hasAnyRole("COMENTADOR", "ADMIN")
+				
+				
+				
+				.requestMatchers("/admin/**", "/private/publicacion/**", "/private/comentario/**")
 				.hasRole("ADMIN")// Si la persona tiene el rol de user o admin.
 				
 				

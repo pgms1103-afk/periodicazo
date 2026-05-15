@@ -11,5 +11,6 @@ import co.edu.unbosque.periodicazo.entity.Publicacion.Tipo;
 public interface PublicacionRepository extends JpaRepository<Publicacion, Long>{
 	
 	public Optional<List<Publicacion>> findByTipo(Tipo tipo);
+	public Optional<List<Publicacion>> findByTitulo(String titulo);
 
 }

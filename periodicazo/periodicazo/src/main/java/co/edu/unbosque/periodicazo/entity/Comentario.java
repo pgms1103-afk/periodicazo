@@ -14,7 +14,7 @@ public class Comentario {
 	
 	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 	private String contenido;
-	private String nombre;
+	private String nombreComentador;
 	private LocalDateTime fecha;
 	@ManyToOne
 	@JoinColumn(name = "publicacion_id")
@@ -24,11 +24,11 @@ public class Comentario {
 		this.fecha = LocalDateTime.now();
 	}
 
-	public Comentario(Long id, String contenido, String nombre, LocalDateTime fecha, Publicacion publicacion) {
+	public Comentario(Long id, String contenido, String nombreComentador, LocalDateTime fecha, Publicacion publicacion) {
 		super();
 		this.id = id;
 		this.contenido = contenido;
-		this.nombre = nombre;
+		this.nombreComentador = nombreComentador;
 		this.fecha = fecha;
 		this.publicacion = publicacion;
 	}
@@ -49,12 +49,12 @@ public class Comentario {
 		this.contenido = contenido;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getNombreComentador() {
+		return nombreComentador;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setnombreComentador(String nombreComentador) {
+		this.nombreComentador = nombreComentador;
 	}
 
 	public LocalDateTime getFecha() {
@@ -75,13 +75,13 @@ public class Comentario {
 
 	@Override
 	public String toString() {
-		return "Comentario [id=" + id + ", contenido=" + contenido + ", nombre=" + nombre + ", fecha=" + fecha
+		return "Comentario [id=" + id + ", contenido=" + contenido + ", nombre=" + nombreComentador + ", fecha=" + fecha
 				+ ", publicacion=" + publicacion + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(contenido, fecha, id, nombre, publicacion);
+		return Objects.hash(contenido, fecha, id, nombreComentador, publicacion);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class Comentario {
 			return false;
 		Comentario other = (Comentario) obj;
 		return Objects.equals(contenido, other.contenido) && Objects.equals(fecha, other.fecha)
-				&& Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre)
+				&& Objects.equals(id, other.id) && Objects.equals(nombreComentador, other.nombreComentador)
 				&& Objects.equals(publicacion, other.publicacion);
 	}
 

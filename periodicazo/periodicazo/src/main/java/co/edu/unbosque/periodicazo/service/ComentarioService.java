@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import co.edu.unbosque.periodicazo.dto.ComentarioDTO;
 import co.edu.unbosque.periodicazo.entity.Comentario;
@@ -14,6 +15,7 @@ import co.edu.unbosque.periodicazo.entity.Usuario;
 import co.edu.unbosque.periodicazo.repository.ComentarioRepository;
 import co.edu.unbosque.periodicazo.repository.PublicacionRepository;
 
+@Service
 public class ComentarioService implements CRUDoperation<ComentarioDTO> {
 
 	@Autowired
@@ -34,7 +36,7 @@ public class ComentarioService implements CRUDoperation<ComentarioDTO> {
 			return 1;
 		} else {
 			Comentario comentario = new Comentario();
-			comentario.setNombre(data.getNombre());
+			comentario.setnombreComentador(data.getNombreComentador());;
 			comentario.setContenido(data.getContenido());
 			comentario.setFecha(data.getFecha());
 			comentario.setPublicacion(encontrado.get());
@@ -42,17 +44,23 @@ public class ComentarioService implements CRUDoperation<ComentarioDTO> {
 			return 0;
 		}
 	}
-
+	
 	@Override
-	public List<ComentarioDTO> getAll() {
-		List<Comentario> entityList = comentarioRepo.findAll();
-		List<ComentarioDTO> dtoList = new ArrayList<>();
-		entityList.forEach((entity) -> {
-			ComentarioDTO dto = mapper.map(entity, ComentarioDTO.class);
-			dtoList.add(dto);
-		});
-		return dtoList;
-	}
+  public List<ComentarioDTO> getAll() {
+      List<Comentario> entityList = comentarioRepo.findAll();
+      List<ComentarioDTO> dtoList = new ArrayList<>();
+      entityList.forEach(entity -> {
+          ComentarioDTO dto = new ComentarioDTO();
+          dto.setId(entity.getId());
+          dto.setContenido(entity.getContenido());
+          dto.setNombreComentador(entity.getNombreComentador());
+          dto.setFecha(entity.getFecha());
+          dto.setNombrePublicacion(entity.getPublicacion().getTitulo());
+          dto.setPublicacionId(entity.getPublicacion() != null ? entity.getPublicacion().getId() : null);
+          dtoList.add(dto);
+      });
+      return dtoList;
+  }
 
 	@Override
 	public int updateByID(Long id, ComentarioDTO data) {
@@ -61,7 +69,7 @@ public class ComentarioService implements CRUDoperation<ComentarioDTO> {
 			return 1;
 		}else {
 			Comentario temp = encontrado.get();
-			temp.setNombre(data.getNombre());
+			temp.setnombreComentador(data.getNombreComentador());;
 			temp.setContenido(data.getContenido());
 			comentarioRepo.save(temp);
 			return 0;
@@ -78,6 +86,28 @@ public class ComentarioService implements CRUDoperation<ComentarioDTO> {
 		    } else {
 		      return 1;
 		    }
+	}
+	
+	public List<ComentarioDTO> findByTitulo(String titulo) {
+		Optional<List<Publicacion>> encontrado = publicacionRepo.findByTitulo(titulo);
+		if(encontrado.isPresent()) {
+			Publicacion publi = encontrado.get().get(0);
+			List<Comentario> entityList = comentarioRepo.findByPublicacion(publi);
+		      List<ComentarioDTO> dtoList = new ArrayList<>();
+		      entityList.forEach(entity -> {
+		          ComentarioDTO dto = new ComentarioDTO();
+		          dto.setId(entity.getId());
+		          dto.setContenido(entity.getContenido());
+		          dto.setNombreComentador(entity.getNombreComentador());
+		          dto.setFecha(entity.getFecha());
+		          dto.setNombrePublicacion(entity.getPublicacion().getTitulo());
+		          dto.setPublicacionId(entity.getPublicacion() != null ? entity.getPublicacion().getId() : null);
+		          dtoList.add(dto);
+		      });
+		      return dtoList;
+		}else {
+			return new ArrayList<ComentarioDTO>();
+		}
 	}
 
 }
