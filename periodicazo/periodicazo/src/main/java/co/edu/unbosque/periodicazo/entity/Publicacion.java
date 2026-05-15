@@ -1,14 +1,17 @@
 package co.edu.unbosque.periodicazo.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Publicacion {
@@ -26,7 +29,8 @@ public class Publicacion {
 	private Categoria categoria;
 	private String signo;
 	private String elemento;
-	
+	@OneToMany(mappedBy = "publicacion", cascade = CascadeType.ALL)
+	private List<Comentario> comentarios;
 	public enum Categoria{
 		 Política,
 		    Economía,
@@ -45,7 +49,7 @@ public class Publicacion {
 	}
 
 	public Publicacion(Tipo tipo, String titulo, String contenido, String autor, String editorial, LocalDateTime fecha,
-			Categoria categoria, String signo, String elemento) {
+			Categoria categoria, String signo, String elemento, List<Comentario> comentarios) {
 		super();
 		this.tipo = tipo;
 		this.titulo = titulo;
@@ -56,6 +60,7 @@ public class Publicacion {
 		this.categoria = categoria;
 		this.signo = signo;
 		this.elemento = elemento;
+		this.comentarios = comentarios;
 	}
 
 	public Long getId() {
@@ -138,16 +143,25 @@ public class Publicacion {
 		this.elemento = elemento;
 	}
 
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+
 	@Override
 	public String toString() {
 		return "Publicacion [id=" + id + ", tipo=" + tipo + ", titulo=" + titulo + ", contenido=" + contenido
 				+ ", autor=" + autor + ", editorial=" + editorial + ", fecha=" + fecha + ", categoria=" + categoria
-				+ ", signo=" + signo + ", elemento=" + elemento + "]";
+				+ ", signo=" + signo + ", elemento=" + elemento + ", comentarios=" + comentarios + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(autor, categoria, contenido, editorial, elemento, fecha, id, signo, tipo, titulo);
+		return Objects.hash(autor, categoria, comentarios, contenido, editorial, elemento, fecha, id, signo, tipo,
+				titulo);
 	}
 
 	@Override
@@ -160,13 +174,12 @@ public class Publicacion {
 			return false;
 		Publicacion other = (Publicacion) obj;
 		return Objects.equals(autor, other.autor) && categoria == other.categoria
-				&& Objects.equals(contenido, other.contenido) && Objects.equals(editorial, other.editorial)
-				&& Objects.equals(elemento, other.elemento) && Objects.equals(fecha, other.fecha)
-				&& Objects.equals(id, other.id) && Objects.equals(signo, other.signo) && tipo == other.tipo
-				&& Objects.equals(titulo, other.titulo);
+				&& Objects.equals(comentarios, other.comentarios) && Objects.equals(contenido, other.contenido)
+				&& Objects.equals(editorial, other.editorial) && Objects.equals(elemento, other.elemento)
+				&& Objects.equals(fecha, other.fecha) && Objects.equals(id, other.id)
+				&& Objects.equals(signo, other.signo) && tipo == other.tipo && Objects.equals(titulo, other.titulo);
 	}
-	
-	
+
 	
 	
 	
