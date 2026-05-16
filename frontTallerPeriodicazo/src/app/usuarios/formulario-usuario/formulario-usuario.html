@@ -1,0 +1,46 @@
+<div class="fondo-modal" *ngIf="mostrar">
+
+  <div class="tarjeta-vintage sombra-retro caja-modal">
+
+    <div class="encabezado-modal">
+      <h2 class="titulo-modal" *ngIf="!modoEditar">Registrar Nuevo Lector</h2>
+      <h2 class="titulo-modal" *ngIf="modoEditar">Modificar Personal</h2>
+      <button class="boton-cerrar-x" (click)="cerrar()">X</button>
+    </div>
+
+    <form class="formulario-modal">
+      <div class="grupo-formulario">
+        <label class="etiqueta-formulario">Nombre de Usuario o Seudonimo</label>
+        <input type="text" class="entrada-vintage" [value]="modoEditar ? 'Jose Cipagauta' : ''" placeholder="Ej: Redactor90">
+      </div>
+
+      <div class="grupo-formulario">
+        <label class="etiqueta-formulario">Correo Electronico de Contacto</label>
+        <input type="email" class="entrada-vintage" [value]="modoEditar ? 'director@diario.com' : ''" placeholder="correo@ejemplo.com">
+      </div>
+
+      <div class="grupo-formulario">
+        <label class="etiqueta-formulario">Asignar Cargo / Rol</label>
+        <select class="entrada-vintage select-retro">
+          <option [selected]="modoEditar">Director (Admin)</option>
+          <option>Editor</option>
+          <option>Comentador</option>
+          <option>Suscriptor (Usuario)</option>
+        </select>
+      </div>
+
+      <div class="grupo-formulario" *ngIf="!modoEditar">
+        <label class="etiqueta-formulario">Contrasena de Acceso</label>
+        <input type="password" class="entrada-vintage" placeholder="••••••••">
+      </div>
+
+      <div class="acciones-modal">
+        <button type="button" class="boton-retro-secundario" (click)="cerrar()">Cancelar</button>
+        <button type="button" class="boton-retro" (click)="cerrar()">
+          {{ modoEditar ? 'Guardar Cambios' : 'Dar de Alta' }}
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>

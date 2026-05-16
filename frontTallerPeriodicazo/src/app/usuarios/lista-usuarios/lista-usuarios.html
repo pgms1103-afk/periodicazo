@@ -1,7 +1,7 @@
 <div class="contenedor-modulo">
   <div class="encabezado-modulo">
     <h2 class="titulo-marca">Directorio de Lectores y Personal</h2>
-    <button class="boton-retro">Registrar Nuevo</button>
+    <button class="boton-retro" (click)="abrirParaCrear()">Registrar Nuevo</button>
   </div>
 
   <div class="tarjeta-vintage sombra-retro contenedor-tabla">
@@ -22,18 +22,7 @@
         <td>directordiario.com</td>
         <td><span class="etiqueta-rol-tabla">Director</span></td>
         <td>
-          <button class="boton-accion-tabla">Modificar</button>
-          <button class="boton-accion-tabla">Suspender</button>
-        </td>
-      </tr>
-
-      <tr>
-        <td class="celda-destacada">#9876543</td>
-        <td>Lector Fiel</td>
-        <td>lectorcorreo.com</td>
-        <td><span class="etiqueta-rol-tabla gris">Suscriptor</span></td>
-        <td>
-          <button class="boton-accion-tabla">Modificar</button>
+          <button class="boton-accion-tabla" (click)="abrirParaEditar()">Modificar</button>
           <button class="boton-accion-tabla">Suspender</button>
         </td>
       </tr>
@@ -41,3 +30,9 @@
     </table>
   </div>
 </div>
+
+<app-formulario-usuario
+  [mostrar]="modalVisible"
+  [modoEditar]="modoEdicionActivo"
+  (alCerrar)="cerrarModal()">
+</app-formulario-usuario>

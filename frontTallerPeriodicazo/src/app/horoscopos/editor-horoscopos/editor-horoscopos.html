@@ -1,32 +1,78 @@
 <div class="contenedor-modulo">
-  <button class="boton-volver" routerLink="/horoscopos"> ← Regresar</button>
+  <button class="boton-volver" routerLink="/horoscopos">← Regresar a Seccion Astral</button>
+
   <div class="encabezado-modulo">
-    <h2 class="titulo-editor">Redactar Prediccion Astral</h2>
+    <h2 class="titulo-editor">Gabinete Astrologico: Redactar Horoscopos</h2>
   </div>
 
   <form class="tarjeta-vintage sombra-retro formulario-edicion">
     <div class="grupo-formulario">
-      <label class="etiqueta-formulario">Signo del Zodiaco</label>
+      <label class="etiqueta-formulario">Categoria</label>
       <select class="entrada-vintage select-retro">
-        <option>Aries</option>
-        <option>Tauro</option>
-        <option>Geminis</option>
-        <option>Cancer</option>
-        <option>Leo</option>
-        <option>Virgo</option>
+        <option>Zodiaco / Astral</option>
       </select>
     </div>
 
     <div class="grupo-formulario">
-      <label class="etiqueta-formulario">Pronostico Semanal (Salud, Dinero, Amor)</label>
-      <textarea class="entrada-vintage area-texto-larga" placeholder="Escriba el presagio astral detallado aqui..."></textarea>
+      <label class="etiqueta-formulario">Titulo Astral</label>
+      <input type="text" class="entrada-vintage" placeholder="Escribe el encabezado mistico para el signo...">
+    </div>
+
+    <div class="grupo-formulario-fila">
+      <div class="columna-formulario">
+        <label class="etiqueta-formulario">Signo Zodiacal</label>
+        <select class="entrada-vintage select-retro">
+          <option>Aries</option>
+          <option>Tauro</option>
+          <option>Geminis</option>
+          <option>Cancer</option>
+          <option>Leo</option>
+          <option>Virgo</option>
+          <option>Libra</option>
+          <option>Escorpio</option>
+          <option>Sagitario</option>
+          <option>Capricornio</option>
+          <option>Acuario</option>
+          <option>Piscis</option>
+        </select>
+      </div>
+
+      <div class="columna-formulario">
+        <label class="etiqueta-formulario">Elemento Cosmico</label>
+        <select class="entrada-vintage select-retro">
+          <option>Fuego</option>
+          <option>Tierra</option>
+          <option>Aire</option>
+          <option>Agua</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grupo-formulario-fila">
+      <div class="columna-formulario">
+        <label class="etiqueta-formulario">Astrologo / Autor</label>
+        <input type="text" class="entrada-vintage" placeholder="Nombre del interprete de las estrellas...">
+      </div>
+
+      <div class="columna-formulario">
+        <label class="etiqueta-formulario">Editorial</label>
+        <input type="text" class="entrada-vintage" placeholder="Casa editora...">
+      </div>
+    </div>
+
+    <div class="grupo-formulario">
+      <label class="etiqueta-formulario">Fecha y Hora de Alineacion</label>
+      <input type="datetime-local" class="entrada-vintage">
+    </div>
+
+    <div class="grupo-formulario">
+      <label class="etiqueta-formulario">Presagio / Contenido</label>
+      <textarea class="entrada-vintage area-texto-larga" placeholder="Escriba la prediccion astral completa aqui..."></textarea>
     </div>
 
     <div class="acciones-formulario">
-      <div class="acciones-formulario">
-        <button type="button" class="boton-retro-secundario" routerLink="/horoscopos">Descartar Borrador</button>
-        <button type="button" class="boton-retro" routerLink="/horoscopos">Imprimir Prediccion</button>
-      </div>
+      <button type="button" class="boton-retro-secundario" routerLink="/horoscopos">Descartar Borrador</button>
+      <button type="button" class="boton-retro" routerLink="/horoscopos">Imprimir Prediccion</button>
     </div>
   </form>
 </div>

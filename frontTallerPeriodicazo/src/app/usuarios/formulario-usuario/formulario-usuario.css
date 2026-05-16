@@ -1,0 +1,81 @@
+.fondo-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); /* Oscurece el fondo suavemente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; /* Asegura que este por encima de todo */
+  animation: atenuarFondo 0.2s ease;
+}
+
+.caja-modal {
+  width: 100%;
+  max-width: 480px;
+  padding: 35px;
+  background-color: var(--blanco-hueso);
+  animation: entradaModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.encabezado-modal {
+  border-bottom: var(--borde-grueso);
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titulo-modal {
+  font-size: 22px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+.boton-cerrar-x {
+  background: none;
+  border: none;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.boton-cerrar-x:hover {
+  color: var(--gris-oscuro);
+}
+
+.grupo-formulario {
+  margin-bottom: 20px;
+}
+
+.select-retro {
+  appearance: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.acciones-modal {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 35px;
+  border-top: var(--borde-fino);
+  padding-top: 20px;
+}
+
+/* --- ANIMACIONES VINTAGE --- */
+@keyframes atenuarFondo {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes entradaModal {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
