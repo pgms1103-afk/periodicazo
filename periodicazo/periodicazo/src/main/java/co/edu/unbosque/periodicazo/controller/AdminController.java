@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import co.edu.unbosque.periodicazo.dto.UsuarioDTO;
+import co.edu.unbosque.periodicazo.exception.ContrasenaInvalidaException;
 import co.edu.unbosque.periodicazo.service.UsuarioService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,9 +21,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 /**
  * Controlador REST para operaciones exclusivas del administrador.
  * <p>
- * Expone endpoints bajo la ruta {@code /admin} para la gestión completa
- * de usuarios del sistema. Todos los endpoints requieren autenticación
- * mediante token JWT con rol {@code ADMIN}.
+ * Expone endpoints bajo la ruta {@code /admin} para la gestión completa de
+ * usuarios del sistema. Todos los endpoints requieren autenticación mediante
+ * token JWT con rol {@code ADMIN}.
  * </p>
  */
 @RestController
@@ -48,21 +49,26 @@ public class AdminController {
 	 */
 	@PostMapping("/crearusuario")
 	public ResponseEntity<String> crearUsuario(@RequestBody UsuarioDTO dto) {
-		int status = userSer.create(dto);
-		if (status == 0) {
-			return new ResponseEntity<>("Usuario creado con éxito", HttpStatus.CREATED);
-		} else if (status == 1) {
-			return new ResponseEntity<>("Ya existe un usuario con ese username", HttpStatus.CONFLICT);
-		} else {
-			return new ResponseEntity<>("Error inesperado al crear el usuario", HttpStatus.INTERNAL_SERVER_ERROR);
+		try {
+			int status = userSer.create(dto);
+			if (status == 0) {
+				return new ResponseEntity<>("Usuario creado con éxito", HttpStatus.CREATED);
+			} else if (status == 1) {
+				return new ResponseEntity<>("Ya existe un usuario con ese username", HttpStatus.CONFLICT);
+			} else {
+				return new ResponseEntity<>("Error inesperado al crear el usuario", HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} catch (ContrasenaInvalidaException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Obtiene la lista de todos los usuarios registrados en el sistema.
 	 *
-	 * @return {@code 202 Accepted} con la lista de {@link UsuarioDTO} si hay usuarios,
-	 *         {@code 204 No Content} si no existe ningún usuario registrado
+	 * @return {@code 202 Accepted} con la lista de {@link UsuarioDTO} si hay
+	 *         usuarios, {@code 204 No Content} si no existe ningún usuario
+	 *         registrado
 	 */
 	@GetMapping("/mostrarusuario")
 	public ResponseEntity<List<UsuarioDTO>> mostrarUsuario() {
@@ -80,7 +86,8 @@ public class AdminController {
 	 * @param id  identificador único del usuario a actualizar
 	 * @param dto objeto {@link UsuarioDTO} con los nuevos datos del usuario
 	 * @return {@code 200 OK} si el usuario fue actualizado exitosamente,
-	 *         {@code 204 No Content} si no existe un usuario con el ID proporcionado
+	 *         {@code 204 No Content} si no existe un usuario con el ID
+	 *         proporcionado
 	 */
 	@PutMapping("actualizarusuario")
 	public ResponseEntity<String> actualizarUsuario(@RequestParam Long id, @RequestBody UsuarioDTO dto) {
@@ -97,7 +104,8 @@ public class AdminController {
 	 *
 	 * @param id identificador único del usuario a eliminar
 	 * @return {@code 200 OK} si el usuario fue eliminado exitosamente,
-	 *         {@code 204 No Content} si no existe un usuario con el ID proporcionado
+	 *         {@code 204 No Content} si no existe un usuario con el ID
+	 *         proporcionado
 	 */
 	@DeleteMapping("/eliminarusuario")
 	public ResponseEntity<String> eliminarUsuario(@RequestParam Long id) {
