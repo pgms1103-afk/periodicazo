@@ -3,9 +3,7 @@
 
   <article class="articulo-completo tarjeta-vintage sombra-retro">
     <header class="cabecera-articulo">
-      <div class="icono-signo-grande" style="margin-bottom: 20px;">
-        <img [src]="obtenerIcono(articulo.signo)" alt="Signo {{ articulo.signo }}" style="width: 80px; height: 80px; opacity: 0.9;">
-      </div>
+      <div class="icono-signo-grande">{{ obtenerIcono(articulo.signo) }}</div>
       <span class="etiqueta-categoria" style="background-color: var(--negro-periodico); color: var(--blanco-hueso); padding: 5px 10px; font-weight: bold; text-transform: uppercase;">
         {{ articulo.signo }} - Elemento: {{ articulo.elemento }}
       </span>
