@@ -1,0 +1,34 @@
+<nav class="barra-superior tarjeta-vintage sombra-retro">
+  <div class="linea-creditos">
+    <div class="bloque-rol">
+      <span class="prefijo-rol">Credencial Activa:</span>
+      <span class="etiqueta-rol"><i class="fa-solid fa-id-badge" style="margin-right: 5px;"></i>{{ rolActual }}</span>
+    </div>
+    <div class="bloque-salida">
+      <button class="boton-cerrar-edicion" routerLink="/inicio-sesion">
+        <i class="fa-solid fa-right-from-bracket" style="margin-right: 4px;"></i> Cerrar sesion
+      </button>
+    </div>
+  </div>
+
+  <div class="logo-contenedor">
+    <h1 class="titulo-marca">Periodicazo</h1>
+  </div>
+
+  <ul class="enlaces-navegacion">
+    <li *ngIf="rolActual === 'ADMIN'">
+      <a routerLink="/panel-principal" routerLinkActive="activo"><i class="fa-solid fa-chart-line"
+                                                                    style="margin-right: 6px;"></i>Estadisticas</a>
+    </li>
+    <li>
+      <a routerLink="/noticias" routerLinkActive="activo"><i class="fa-solid fa-newspaper"
+                                                             style="margin-right: 6px;"></i>Noticias</a>
+    </li>
+    <li>
+      <a routerLink="/horoscopos" routerLinkActive="activo"><i class="fa-solid fa-moon" style="margin-right: 6px;"></i>Horoscopos</a>
+    </li>
+    <li *ngIf="rolActual === 'ADMIN'">
+      <a routerLink="/usuarios" routerLinkActive="activo"><i class="fa-solid fa-users" style="margin-right: 6px;"></i>Usuarios</a>
+    </li>
+  </ul>
+</nav>

@@ -1,0 +1,88 @@
+.barra-superior {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.linea-creditos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  border-bottom: var(--borde-fino);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.prefijo-rol {
+  font-family: sans-serif;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-right: 5px;
+}
+
+.etiqueta-rol {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  border: var(--borde-fino);
+  padding: 2px 8px;
+  background-color: var(--negro-periodico);
+  color: var(--blanco-hueso);
+}
+
+.boton-cerrar-edicion {
+  background: none;
+  border: none;
+  border-bottom: 2px solid var(--negro-periodico);
+  font-family: 'Arial Black', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s;
+}
+
+.boton-cerrar-edicion:hover {
+  color: var(--gris-oscuro);
+  border-bottom-color: transparent;
+}
+
+.logo-contenedor {
+  padding: 20px 0 10px 0;
+  text-align: center;
+}
+
+.titulo-marca {
+  font-size: 55px;
+  margin: 0;
+  letter-spacing: -3px;
+}
+
+.enlaces-navegacion {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  padding: 15px 0;
+  margin: 0;
+  border-top: var(--borde-grueso);
+  border-bottom: var(--borde-fino);
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.enlaces-navegacion a {
+  color: var(--negro-periodico);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.enlaces-navegacion a:hover,
+.enlaces-navegacion a.activo {
+  background-color: var(--negro-periodico);
+  color: var(--blanco-hueso);
+  padding: 0 10px;
+}

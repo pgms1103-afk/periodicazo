@@ -1,0 +1,83 @@
+.contenedor-modulo {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.encabezado-modulo {
+  border-bottom: var(--borde-grueso);
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 10px;
+}
+
+.contenedor-tabla {
+  padding: 20px;
+  overflow-x: auto;
+}
+
+
+.tabla-retro {
+  width: 100%;
+  border-collapse: collapse;
+  border: var(--borde-grueso);
+  background-color: var(--blanco-hueso);
+}
+
+.tabla-retro th, .tabla-retro td {
+  border: var(--borde-fino);
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.tabla-retro th {
+  background-color: var(--negro-periodico);
+  color: var(--blanco-hueso);
+  text-transform: uppercase;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+/* Efecto de lineas de lectura alternas */
+.tabla-retro tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.celda-destacada {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+
+.etiqueta-rol-tabla {
+  font-family: sans-serif;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: var(--negro-periodico);
+  color: var(--blanco-hueso);
+  padding: 3px 8px;
+}
+
+.etiqueta-rol-tabla.gris {
+  background: var(--gris-oscuro);
+}
+
+.boton-accion-tabla {
+  background: none;
+  border: var(--borde-fino);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: all 0.2s;
+}
+
+.boton-accion-tabla:hover {
+  background: var(--negro-periodico);
+  color: var(--blanco-hueso);
+}

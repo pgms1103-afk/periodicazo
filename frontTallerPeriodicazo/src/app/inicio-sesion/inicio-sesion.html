@@ -1,0 +1,55 @@
+<div class="pantalla-centrada">
+  <div class="tarjeta-vintage sombra-retro caja-autenticacion">
+    <div class="encabezado-auth">
+      <h1 class="titulo-marca">Periodicazo</h1>
+
+      <div class="selector-pestanas">
+        <button class="pestana" [class.activa]="vistaLogin" (click)="cambiarPestana(true)">Ingresar</button>
+        <button class="pestana" [class.activa]="!vistaLogin" (click)="cambiarPestana(false)">Registro</button>
+      </div>
+    </div>
+
+    <div class="contenedor-formulario" *ngIf="vistaLogin">
+      <form class="formulario-auth">
+        <div class="grupo-formulario">
+          <label class="etiqueta-formulario">Nombre Usuario</label>
+          <input type="text" class="entrada-vintage" placeholder="Ej: Redactor23" [(ngModel)]="usuario" name="usuario">
+        </div>
+        <div class="grupo-formulario">
+          <label class="etiqueta-formulario">Contraseña</label>
+          <input type="password" class="entrada-vintage" placeholder="••••••••" [(ngModel)]="contrasena" name="contrasena">
+        </div>
+
+        <div *ngIf="mensajeError" class="alerta-error-retro">
+          Error: {{ mensajeError }}
+        </div>
+
+        <button type="button" class="boton-retro boton-bloque" (click)="entrarAlSistema()">Entrar a la Redaccion</button>
+      </form>
+    </div>
+
+    <div class="contenedor-formulario" *ngIf="!vistaLogin">
+      <form class="formulario-auth">
+
+        <div class="grupo-formulario">
+          <label class="etiqueta-formulario">Nombre Usuario</label>
+          <input type="text" class="entrada-vintage" placeholder="Ej: Corresponsal99" [(ngModel)]="nuevoUsuario" name="nuevoUsuario">
+        </div>
+
+        <div class="grupo-formulario">
+          <label class="etiqueta-formulario">Contraseña</label>
+          <input type="password" class="entrada-vintage" placeholder="Minimo 8 caracteres" [(ngModel)]="nuevaContrasena" name="nuevaContrasena">
+        </div>
+
+        <div *ngIf="mensajeError" class="alerta-error-retro">
+          Error: {{ mensajeError }}
+        </div>
+        <div *ngIf="mensajeExito" class="alerta-exito-retro">
+          Error: {{ mensajeExito }}
+        </div>
+
+        <button type="button" class="boton-retro boton-bloque" (click)="registrarSistema()">Suscribirse al Diario</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="contenedor-modulo">
+  <div class="encabezado-modulo">
+    <h2 class="titulo-marca">Predicciones de la Semana</h2>
+    <button *ngIf="rolActual === 'ADMIN'" class="boton-retro" routerLink="/editor-horoscopos">
+      <i class="fa-solid fa-wand-magic-sparkles" style="margin-right: 5px;"></i> Redactar Horoscopo
+    </button>
+  </div>
+
+  <div *ngIf="mensajeError" class="alerta-error-retro">
+    [FE DE ERRATAS]: {{ mensajeError }}
+  </div>
+
+  <div *ngIf="horoscopos.length === 0 && !mensajeError" style="text-align: center; font-style: italic; padding: 40px;">
+    Los astros aún no han revelado sus secretos. No hay horóscopos impresos.
+  </div>
+
+  <div class="cuadricula-tarjetas">
+    <div class="tarjeta-vintage sombra-retro tarjeta-contenido centrado" *ngFor="let h of horoscopos">
+      <div class="icono-signo" style="margin-bottom: 15px;">
+        <img [src]="obtenerIcono(h.signo)" alt="Signo {{ h.signo }}" style="width: 55px; height: 55px; opacity: 0.9;">
+      </div>
+      <h3 class="titulo-articulo">{{ h.signo }}</h3>
+      <span class="fecha-horoscopo">Elemento: {{ h.elemento }}</span>
+      <h4 style="margin: 0 0 10px 0; font-family: 'Georgia', serif; font-style: italic;">{{ h.titulo }}</h4>
+      <p class="resumen-articulo mt-10">{{ h.contenido | slice:0:100 }}...</p>
+
+      <div class="acciones-articulo justificado-centro">
+        <button class="boton-accion" (click)="leerCompleto(h)">
+          <i class="fa-solid fa-eye" style="margin-right: 3px;"></i> Leer
+        </button>
+        <button *ngIf="rolActual === 'ADMIN' || rolActual === 'COMENTADOR'" class="boton-accion" (click)="irAComentarios(h)">
+          <i class="fa-solid fa-pen-nib" style="margin-right: 3px;"></i> Comentar
+        </button>
+        <button *ngIf="rolActual === 'ADMIN' || rolActual === 'EDITOR'" class="boton-accion" (click)="editarHoroscopo(h)">
+          <i class="fa-solid fa-pen-to-square" style="margin-right: 3px;"></i> Editar
+        </button>
+        <button *ngIf="rolActual === 'ADMIN'" class="boton-accion" (click)="eliminarHoroscopo(h.id)" style="color: #8b0000;">
+          <i class="fa-solid fa-trash-can" style="margin-right: 3px;"></i> Borrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

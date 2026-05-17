@@ -1,0 +1,75 @@
+.seccion-comentarios {
+  max-width: 800px;
+  margin: 60px auto 0 auto;
+  border-top: var(--borde-grueso);
+  padding-top: 30px;
+}
+
+.titulo-comentarios {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 24px;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 30px;
+}
+
+.caja-nuevo-comentario {
+  margin-bottom: 40px;
+  padding: 25px;
+}
+
+.area-texto-corta {
+  min-height: 100px;
+  resize: vertical;
+  border: var(--borde-fino);
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.alinear-derecha {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mt-15 { margin-top: 15px; }
+.mt-40 { margin-top: 40px; }
+
+.lista-comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item-comentario {
+  border-bottom: var(--borde-fino);
+  padding-bottom: 20px;
+}
+
+.item-comentario:last-child {
+  border-bottom: none;
+}
+
+.cabecera-comentario {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.autor-comentario {
+  font-family: 'Arial Black', sans-serif;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.fecha-comentario {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--gris-oscuro);
+}
+
+.texto-comentario {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: justify;
+}
