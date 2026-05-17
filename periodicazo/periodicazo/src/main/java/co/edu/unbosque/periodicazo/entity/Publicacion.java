@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Column;
 
 /**
  * Entidad JPA que representa una publicación del periódico.
@@ -46,6 +47,7 @@ public class Publicacion {
 	private String titulo;
 
 	/** Contenido o cuerpo de la publicación. */
+	@Column(length = 65535)
 	private String contenido;
 
 	/** Nombre del autor de la publicación. Solo aplica para noticias. */
@@ -90,15 +92,15 @@ public class Publicacion {
 	 */
 	public enum Categoria {
 		/** Noticias relacionadas con política. */
-		Política,
+		Politica,
 		/** Noticias relacionadas con economía. */
-		Economía,
+		Economia,
 		/** Noticias relacionadas con cultura. */
 		Cultura,
 		/** Noticias relacionadas con deportes. */
 		Deportes,
 		/** Noticias relacionadas con tecnología. */
-		Tecnología
+		Tecnologia
 	}
 
 	/**

@@ -1,34 +1,46 @@
-<div class="contenedor-modulo">
-  <div style="margin-bottom: 30px;">
-    <button class="boton-volver" routerLink="/noticias">← Regresar</button>
+<div *ngIf="rolActual !== 'EDITOR'" class="envoltura-comentarios">
+
+  <button *ngIf="esPantallaIndependiente" class="boton-volver" routerLink="/noticias">VOLVER A PORTADA</button>
+
+  <div *ngIf="esPantallaIndependiente" class="tarjeta-vintage sombra-retro" style="padding: 20px; margin-bottom: 30px; text-align: center; margin-top: 20px;">
+    <p style="font-family: 'Georgia', serif; font-size: 14px; margin: 0 0 10px 0; color: #555; text-transform: uppercase; letter-spacing: 2px;">
+      Seccion de Comentarios
+    </p>
+    <h2 style="font-family: 'Georgia', serif; font-size: 26px; margin: 0; line-height: 1.2; color: #111; text-transform: uppercase;">
+      {{ articuloTitulo }}
+    </h2>
   </div>
 
-  <div class="seccion-comentarios mt-40">
-    <h3 class="titulo-comentarios">Cartas al Director (Comentarios)</h3>
+  <h3 class="titulo-comentarios">Comentarios</h3>
 
-    <div class="tarjeta-vintage sombra-retro caja-nuevo-comentario">
-      <textarea class="entrada-vintage area-texto-corta" placeholder="Escriba su opinion al respecto..."></textarea>
-      <div class="alinear-derecha mt-15">
-        <button class="boton-retro">Enviar Carta</button>
-      </div>
+  <div *ngIf="rolActual === 'ADMIN' || rolActual === 'COMENTADOR'" class="tarjeta-vintage sombra-retro caja-nuevo-comentario">
+    <textarea
+      class="entrada-vintage area-texto-corta"
+      placeholder="Escriba su opinion al respecto..."
+      [(ngModel)]="nuevoContenido"
+      name="contenido">
+    </textarea>
+
+    <div *ngIf="mensajeError" style="color: #8b0000; font-weight: bold; margin-top: 10px; font-size: 13px;">
+      [FE DE ERRATAS]: {{ mensajeError }}
     </div>
 
-    <div class="lista-comentarios">
-      <div class="item-comentario">
-        <div class="cabecera-comentario">
-          <span class="autor-comentario">Lector Habitual</span>
-          <span class="fecha-comentario">Edicion del 14 May</span>
-        </div>
-        <p class="texto-comentario">Un articulo esplendido. Refleja fielmente los acontecimientos de nuestra epoca de una manera muy clara.</p>
-      </div>
+    <div class="alinear-derecha mt-15">
+      <button class="boton-retro" (click)="publicarComentario()">Enviar Comentario</button>
+    </div>
+  </div>
 
-      <div class="item-comentario">
-        <div class="cabecera-comentario">
-          <span class="autor-comentario">Ciudadano Preocupado</span>
-          <span class="fecha-comentario">Edicion del 14 May</span>
-        </div>
-        <p class="texto-comentario">Discrepo profundamente con la conclusion del autor. Hay matices en esta noticia que se pasaron por alto.</p>
+  <div class="lista-comentarios">
+    <div class="item-comentario" *ngFor="let c of comentarios">
+      <div class="cabecera-comentario">
+        <span class="autor-comentario">{{ c.nombreComentador }}</span>
+        <span class="fecha-comentario" *ngIf="c.fecha">Edicion del {{ c.fecha | date:'dd MMM yyyy, hh:mm a' }}</span>
       </div>
+      <p class="texto-comentario">{{ c.contenido }}</p>
+    </div>
+
+    <div *ngIf="comentarios.length === 0" style="text-align: center; font-style: italic; color: #555; padding: 20px;">
+      Aun no hay correspondencia sobre este articulo. Sea el primero en escribir.
     </div>
   </div>
 </div>

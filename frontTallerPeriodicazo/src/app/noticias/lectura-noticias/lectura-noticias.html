@@ -1,35 +1,32 @@
-<div class="contenedor-modulo">
-  <button class="boton-volver" routerLink="/noticias">← Volver a Portada</button>
+<div class="contenedor-modulo" *ngIf="articulo">
 
-  <article class="articulo-completo tarjeta-vintage sombra-retro">
-    <header class="cabecera-articulo">
-      <span class="etiqueta-categoria">Cronica de Actualidad</span>
-      <h1 class="titular-noticia">El Impacto de la Tecnologia en la Redaccion Moderna</h1>
-      <div class="linea-info-autor">
-        <span>Corresponsal: Jose Cipagauta</span>
-        <span>|</span>
-        <span>Edicion No. 45 - Mayo 1996</span>
+  <button class="boton-volver" routerLink="/noticias">VOLVER A PORTADA</button>
+
+  <article style="margin-top: 20px; margin-bottom: 40px;">
+
+    <header class="cabecera-noticia-clasica">
+      <p class="categoria-texto">{{ articulo.categoria }}</p>
+
+      <h1 class="titular-gigante">
+        {{ articulo.titulo }}
+      </h1>
+
+      <div class="metadatos-linea">
+        <span>CORRESPONSAL: {{ articulo.autor || 'REDACCION CENTRAL' | uppercase }}</span>
+        <span class="separador-pipe">|</span>
+        <span>CASA EDITORIAL: {{ articulo.editorial || 'TALLERES DEL DIARIO' | uppercase }}</span>
+        <span *ngIf="articulo.fecha" class="separador-pipe">|</span>
+        <span *ngIf="articulo.fecha">IMPRESION: {{ articulo.fecha | date:'dd/MM/yyyy - hh:mm a' | uppercase }}</span>
       </div>
     </header>
 
-    <div class="cuerpo-periodico">
-      <p class="parrafo-introduccion">
-        <span class="letra-capital">E</span>n las ultimas decadas, el mundo ha sido testigo de una transformacion sin precedentes. Lo que antes requeria horas de trabajo manual en prensas y maquinas de escribir, hoy se gestiona a traves de circuitos y pantallas.
-      </p>
-
-      <p>
-        La llegada de los sistemas digitales ha permitido que las noticias viajen mas rapido que nunca. Los reporteros ya no dependen unicamente del telegrafo o del correo postal para enviar sus cronicas desde el frente de los acontecimientos. Sin embargo, surge una pregunta fundamental: ¿se ha perdido la esencia del periodismo de investigacion en favor de la inmediatez?
-      </p>
-
-      <blockquote class="cita-destacada">
-        "La pluma sigue siendo mas poderosa que el procesador de textos si la verdad es quien la guia."
-      </blockquote>
-
-      <p>
-        Muchos expertos aseguran que la estetica de los diarios impresos seguira siendo el estandar de oro de la credibilidad. El peso del papel, el aroma de la tinta fresca y la organizacion en columnas ofrecen una experiencia de lectura que los medios electronicos aun intentan emular. En esta edicion especial, analizamos como nuestra redaccion se adapta a estos tiempos de cambio constante sin perder el rigor editorial que nos caracteriza.
+    <div class="cuerpo-articulo-completo" style="padding: 0 10px;">
+      <p style="font-size: 18px; line-height: 1.8; color: #1a1a1a; white-space: pre-wrap; text-align: justify; font-family: 'Georgia', serif;">
+        {{ articulo.contenido }}
       </p>
     </div>
   </article>
 
-  <app-comentarios-noticias></app-comentarios-noticias>
+  <app-comentarios-noticias [articuloId]="articulo.id" [articuloTitulo]="articulo.titulo"></app-comentarios-noticias>
+
 </div>

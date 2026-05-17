@@ -1,31 +1,41 @@
 <div class="contenedor-modulo">
   <div class="encabezado-modulo">
     <h2 class="titulo-marca">Titulares del Dia</h2>
-    <button class="boton-retro" routerLink="/editor-noticias">Redactar Columna</button>
+    <button *ngIf="rolActual === 'ADMIN'" class="boton-retro" routerLink="/editor-noticias">
+      <i class="fa-solid fa-feather-pointed" style="margin-right: 5px;"></i> Redactar Columna
+    </button>
+  </div>
+
+  <div *ngIf="mensajeError" class="alerta-error-retro">
+    [FE DE ERRATAS]: {{ mensajeError }}
+  </div>
+
+  <div *ngIf="noticias.length === 0 && !mensajeError" style="text-align: center; font-style: italic; padding: 40px;">
+    La prensa aun no ha imprimido las noticias de hoy.
   </div>
 
   <div class="cuadricula-tarjetas">
-    <div class="tarjeta-vintage sombra-retro tarjeta-contenido">
-      <span class="etiqueta-categoria">Tecnologia</span>
-      <h3 class="titulo-articulo">El nuevo invento revolucionario</h3>
-      <p class="resumen-articulo">Descubra como esta nueva maquina cambiara la forma en que el mundo se comunica durante las proximas decadas...</p>
+    <div class="tarjeta-vintage sombra-retro tarjeta-contenido" *ngFor="let n of noticias">
+      <span class="etiqueta-categoria">{{ n.categoria }}</span>
+      <h3 class="titulo-articulo">{{ n.titulo }}</h3>
+      <p class="resumen-articulo">{{ n.contenido | slice:0:120 }}...</p>
 
       <div class="acciones-articulo">
-        <button class="boton-accion" routerLink="/lectura-noticia">Leer Completo</button>
-        <button class="boton-accion" routerLink="/comentarios">Comentar</button>
-        <button class="boton-accion" routerLink="/editor-noticias">Editar</button>
-      </div>
-    </div>
+        <button class="boton-accion" (click)="leerCompleto(n)">
+          <i class="fa-solid fa-eye" style="margin-right: 3px;"></i> Leer
+        </button>
 
-    <div class="tarjeta-vintage sombra-retro tarjeta-contenido">
-      <span class="etiqueta-categoria">Ciencia</span>
-      <h3 class="titulo-articulo">Avances en la medicina</h3>
-      <p class="resumen-articulo">Investigadores logran un hito sin precedentes en el laboratorio principal, marcando un antes y un despues en la historia...</p>
+        <button *ngIf="rolActual === 'ADMIN' || rolActual === 'COMENTADOR'" class="boton-accion" (click)="irAComentarios(n)">
+          <i class="fa-solid fa-pen-nib" style="margin-right: 3px;"></i> Comentar
+        </button>
 
-      <div class="acciones-articulo">
-        <button class="boton-accion" routerLink="/lectura-noticia">Leer Completo</button>
-        <button class="boton-accion" routerLink="/comentarios">Comentar</button>
-        <button class="boton-accion" routerLink="/editor-noticias">Editar</button>
+        <button *ngIf="rolActual === 'ADMIN' || rolActual === 'EDITOR'" class="boton-accion" (click)="editarNoticia(n)">
+          <i class="fa-solid fa-pen-to-square" style="margin-right: 3px;"></i> Editar
+        </button>
+
+        <button *ngIf="rolActual === 'ADMIN'" class="boton-accion" (click)="eliminarNoticia(n.id)" style="color: #8b0000;">
+          <i class="fa-solid fa-trash-can" style="margin-right: 3px;"></i> Borrar
+        </button>
       </div>
     </div>
   </div>

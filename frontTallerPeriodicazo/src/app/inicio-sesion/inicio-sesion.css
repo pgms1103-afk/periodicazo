@@ -64,3 +64,21 @@
   font-size: 18px;
   margin-top: 20px;
 }
+
+.alerta-error-retro {
+  color: #8b0000;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.alerta-exito-retro {
+  color: #005a00;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+  font-family: sans-serif;
+}

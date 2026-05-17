@@ -1,5 +1,12 @@
 package co.edu.unbosque.periodicazo.security;
 
+//revisar
+import org.springframework.security.config.Customizer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.Arrays;
+//revisar
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -72,33 +79,42 @@ public class SecurityConfig {
 	 * @return cadena de filtros de seguridad construida y configurada
 	 * @throws Exception si ocurre un error durante la configuración de seguridad
 	 */
+	//revisar
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
+			.cors(Customizer.withDefaults()) // Habilitamos CORS en la barrera
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth
 
-				.requestMatchers("/public/**")
+				// 1. Endpoints totalmente abiertos al público
+				.requestMatchers("/public/**", "/error") 
 				.permitAll()
 				.requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
 				.permitAll()
 
-				.requestMatchers("/private/publicacion/mostrarportipo",
-						"/private/comentario/mostrarportitulo",
-						"/private/comentario/mostrarcomentarios")
-				.hasAnyRole("COMENTADOR", "USUARIO")
+				// 2. Visualización de Publicaciones (La ven todos los roles del diario)
+				.requestMatchers("/private/publicacion/mostrarportipo")
+				.hasAnyRole("USUARIO", "COMENTADOR", "EDITOR", "ADMIN")
 
-				.requestMatchers("/private/publicacion/editarpublicacion",
-						"/private/publicacion/mostrarportipo",
+				// 3. Visualización de Comentarios (Lectores, comentadores y administrador)
+				.requestMatchers("/private/comentario/mostrarportitulo",
+						"/private/comentario/mostrarcomentarios")
+				.hasAnyRole("USUARIO", "COMENTADOR", "ADMIN")
+
+				// 4. Edición y creación de Columnas (Editores y Administrador)
+				// NOTA: Se corrige a /editarPublicacion con P mayúscula para coincidir con tu Controller
+				.requestMatchers("/private/publicacion/editarPublicacion",
 						"/private/publicacion/mostrartodo")
 				.hasAnyRole("EDITOR", "ADMIN")
 
+				// 5. Escritura y Modificación de Comentarios (Comentadores y Administrador)
+				// NOTA: Se corrige el prefijo de /actualizarcomentario a la sección de comentario
 				.requestMatchers("/private/comentario/crearcomentario",
-						"/private/comentario/mostrarportitulo",
-						"/private/publicacion/actualizarcomentario",
-						"/private/comentario/mostrarcomentarios")
+						"/private/comentario/actualizarcomentario")
 				.hasAnyRole("COMENTADOR", "ADMIN")
 
+				// 6. Protección global para el resto de la administración
 				.requestMatchers("/admin/**", "/private/publicacion/**", "/private/comentario/**")
 				.hasRole("ADMIN")
 
@@ -109,6 +125,25 @@ public class SecurityConfig {
 			.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
+	}
+
+	//revisar
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		// Permitir explícitamente el puerto de Angular
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		// Permitir todos los métodos, incluido OPTIONS (El explorador invisible)
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		// Permitir las cabeceras personalizadas como Authorization
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+		// Permitir credenciales de sesión/tokens
+		configuration.setAllowCredentials(true);
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		// Aplicar esta regla a absolutamente todas las rutas de la API
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 
 	/**

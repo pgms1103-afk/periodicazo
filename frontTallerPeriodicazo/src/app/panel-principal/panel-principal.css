@@ -1,23 +1,138 @@
+.contenedor-modulo {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+
+.encabezado-modulo {
+  border-bottom: var(--borde-grueso);
+  margin-bottom: 40px;
+  padding-bottom: 10px;
+}
+
+.titulo-marca {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 35px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: -1px;
+  color: var(--negro-periodico);
+}
+
+.subtitulo-seccion {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: var(--borde-fino);
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+  color: var(--negro-periodico);
+}
+
+
+.mb-40 {
+  margin-bottom: 50px;
+}
+
+
 .cuadricula-estadisticas {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border: var(--borde-grueso);
+  grid-template-columns: repeat(4, 1fr);
+  background-color: var(--blanco-hueso);
+  border: var(--borde-fino);
 }
 
 .tarjeta-estadistica {
-  padding: 40px;
+  padding: 30px 10px;
   text-align: center;
   border-right: var(--borde-fino);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
 
 .tarjeta-estadistica:last-child {
   border-right: none;
 }
 
+
+.cuadricula-zodiaco {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  background-color: var(--blanco-hueso);
+  border: var(--borde-fino);
+  border-bottom: none;
+}
+
+.tarjeta-estadistica-pequena {
+  padding: 20px;
+  text-align: center;
+  border-right: var(--borde-fino);
+  border-bottom: var(--borde-fino);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.tarjeta-estadistica-pequena:nth-child(6n) {
+  border-right: none;
+}
+
+
 .numero-grande {
   display: block;
-  font-size: 60px;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 75px;
   font-weight: 900;
-  border-bottom: var(--borde-fino);
+  line-height: 1;
+  color: var(--negro-periodico);
   margin-bottom: 10px;
+}
+
+.numero-mediano {
+  display: block;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--negro-periodico);
+  margin-bottom: 5px;
+}
+
+.etiqueta-categoria {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  margin: 0;
+  color: var(--gris-oscuro);
+  letter-spacing: 1px;
+}
+
+@media (max-width: 900px) {
+  .cuadricula-estadisticas {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .tarjeta-estadistica:nth-child(2n) {
+    border-right: none;
+  }
+  .tarjeta-estadistica {
+    border-bottom: var(--borde-fino);
+  }
+
+  .cuadricula-zodiaco {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .tarjeta-estadistica-pequena:nth-child(6n) {
+    border-right: var(--borde-fino);
+  }
+  .tarjeta-estadistica-pequena:nth-child(3n) {
+    border-right: none;
+  }
 }

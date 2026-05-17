@@ -11,32 +11,34 @@
     <form class="formulario-modal">
       <div class="grupo-formulario">
         <label class="etiqueta-formulario">Nombre de Usuario o Seudonimo</label>
-        <input type="text" class="entrada-vintage" [value]="modoEditar ? 'Jose Cipagauta' : ''" placeholder="Ej: Redactor90">
-      </div>
-
-      <div class="grupo-formulario">
-        <label class="etiqueta-formulario">Correo Electronico de Contacto</label>
-        <input type="email" class="entrada-vintage" [value]="modoEditar ? 'director@diario.com' : ''" placeholder="correo@ejemplo.com">
+        <input type="text" class="entrada-vintage" [(ngModel)]="username" name="username" placeholder="Ej: Redactor90">
       </div>
 
       <div class="grupo-formulario">
         <label class="etiqueta-formulario">Asignar Cargo / Rol</label>
-        <select class="entrada-vintage select-retro">
-          <option [selected]="modoEditar">Director (Admin)</option>
-          <option>Editor</option>
-          <option>Comentador</option>
-          <option>Suscriptor (Usuario)</option>
+        <select class="entrada-vintage select-retro" [(ngModel)]="role" name="role">
+          <option value="ADMIN">Director (Admin)</option>
+          <option value="EDITOR">Editor</option>
+          <option value="COMENTADOR">Comentador</option>
+          <option value="USUARIO">Suscriptor (Usuario)</option>
         </select>
       </div>
 
-      <div class="grupo-formulario" *ngIf="!modoEditar">
-        <label class="etiqueta-formulario">Contrasena de Acceso</label>
-        <input type="password" class="entrada-vintage" placeholder="••••••••">
+      <div class="grupo-formulario">
+        <label class="etiqueta-formulario">Contrasena de Acceso {{ modoEditar ? '(Opcional)' : '' }}</label>
+        <input type="password" class="entrada-vintage" [(ngModel)]="password" name="password" [placeholder]="modoEditar ? 'Dejar en blanco para mantener la actual' : '••••••••'">
+      </div>
+
+      <div *ngIf="mensajeError" style="color: #8b0000; font-weight: bold; margin-bottom: 15px; font-size: 13px; text-align: center;">
+        [FE DE ERRATAS]: {{ mensajeError }}
+      </div>
+      <div *ngIf="mensajeExito" style="color: #005a00; font-weight: bold; margin-bottom: 15px; font-size: 13px; text-align: center;">
+        [BOLETIN OFICIAL]: {{ mensajeExito }}
       </div>
 
       <div class="acciones-modal">
         <button type="button" class="boton-retro-secundario" (click)="cerrar()">Cancelar</button>
-        <button type="button" class="boton-retro" (click)="cerrar()">
+        <button type="button" class="boton-retro" (click)="guardarUsuario()">
           {{ modoEditar ? 'Guardar Cambios' : 'Dar de Alta' }}
         </button>
       </div>
