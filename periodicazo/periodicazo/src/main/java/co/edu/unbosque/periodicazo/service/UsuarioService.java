@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import co.edu.unbosque.periodicazo.dto.UsuarioDTO;
 import co.edu.unbosque.periodicazo.entity.Usuario;
+import co.edu.unbosque.periodicazo.exception.ContrasenaInvalidaException;
 import co.edu.unbosque.periodicazo.repository.UsuarioRepository;
 
 @Service
@@ -26,6 +27,15 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
 
     @Override
     public int create(UsuarioDTO data) {
+    	if (data.getPassword() == null || data.getPassword() .isBlank()) {
+            throw new ContrasenaInvalidaException("La contrasena no puede estar vacia");
+        }
+        if (data.getPassword().length() < 8) {
+            throw new ContrasenaInvalidaException("La contrasena debe tener minimo 8 caracteres");
+        }
+        if (!data.getPassword().matches(".*[A-Z].*")) {
+            throw new ContrasenaInvalidaException("La contrasena debe tener al menos una letra mayuscula");
+        }
         Usuario entity = new Usuario();
         
         // CORRECCIÓN: Ahora busca usando data.getUsername() en lugar de entity
