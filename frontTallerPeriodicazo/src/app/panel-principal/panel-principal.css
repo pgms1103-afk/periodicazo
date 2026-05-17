@@ -115,6 +115,13 @@
   letter-spacing: 1px;
 }
 
+.fecha-capitalizada {
+  text-transform: capitalize;
+}
+.cuadricula-cinco-columnas {
+  grid-template-columns: repeat(5, 1fr) !important;
+}
+
 @media (max-width: 900px) {
   .cuadricula-estadisticas {
     grid-template-columns: repeat(2, 1fr) !important;
@@ -135,4 +142,6 @@
   .tarjeta-estadistica-pequena:nth-child(3n) {
     border-right: none;
   }
+
+
 }

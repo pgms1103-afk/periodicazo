@@ -23,6 +23,7 @@ export class AuthService {
           if (respuesta.role) {
             localStorage.setItem('rol_diario', respuesta.role);
           }
+          localStorage.setItem('usuario_diario', usuario);
         }
       })
     );
@@ -50,5 +51,6 @@ export class AuthService {
   cerrarSesion() {
     localStorage.removeItem('token_diario');
     localStorage.removeItem('rol_diario');
+    localStorage.removeItem('usuario_diario');
   }
 }

@@ -43,7 +43,6 @@ export class ComentariosNoticias implements OnInit, OnChanges {
     this.cargarComentarios();
   }
 
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['articuloTitulo'] && !changes['articuloTitulo'].firstChange) {
       this.cargarComentarios();
@@ -72,12 +71,13 @@ export class ComentariosNoticias implements OnInit, OnChanges {
       return;
     }
 
-    const firma = this.rolActual === 'ADMIN' ? 'Mesa de Redaccion' : 'Lector Suscrito';
+    const nombreUsuario = localStorage.getItem('usuario_diario') || 'Lector Anonimo';
 
     const nuevoComentario: Comentario = {
       contenido: this.nuevoContenido,
       publicacionId: this.articuloId,
-      nombreComentador: firma
+      nombreComentador: nombreUsuario,
+      fecha: new Date().toISOString()
     };
 
     this.comentarioService.crearComentario(nuevoComentario).subscribe({

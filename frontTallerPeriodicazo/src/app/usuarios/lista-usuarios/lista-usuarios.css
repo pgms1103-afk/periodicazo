@@ -18,7 +18,6 @@
   overflow-x: auto;
 }
 
-
 .tabla-retro {
   width: 100%;
   border-collapse: collapse;
@@ -75,9 +74,38 @@
   cursor: pointer;
   margin-right: 5px;
   transition: all 0.2s;
+  color: var(--negro-periodico);
 }
 
 .boton-accion-tabla:hover {
   background: var(--negro-periodico);
+  color: var(--blanco-hueso);
+}
+
+.alerta-error-retro-centro {
+  color: #8b0000;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.mensaje-vacio-tabla {
+  text-align: center;
+  padding: 20px;
+  font-style: italic;
+}
+
+.icono-btn {
+  margin-right: 5px;
+}
+
+.texto-rojo {
+  color: #8b0000;
+  border-color: #8b0000;
+}
+
+.texto-rojo:hover {
+  background: #8b0000;
+  border-color: #8b0000;
   color: var(--blanco-hueso);
 }

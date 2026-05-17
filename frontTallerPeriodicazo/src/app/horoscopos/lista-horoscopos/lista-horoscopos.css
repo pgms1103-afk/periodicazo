@@ -95,3 +95,21 @@
   background: var(--negro-periodico);
   color: var(--blanco-hueso);
 }
+
+.icono-btn {
+  margin-right: 5px;
+}
+.texto-rojo {
+  color: #8b0000 !important;
+}
+.mensaje-vacio {
+  text-align: center;
+  font-style: italic;
+  padding: 40px;
+  color: #555;
+}
+.subtitulo-horoscopo {
+  margin: 0 0 10px 0;
+  font-family: 'Georgia', serif;
+  font-style: italic;
+}

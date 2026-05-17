@@ -53,7 +53,7 @@ export class InicioSesion {
         }
       },
       error: (err) => {
-        this.mensajeError = 'Credenciales invalidas. El lector no existe o hay un error en la clave.';
+        this.mensajeError = 'Credenciales invalidas. El lector no existe o la contraseña no coincide.';
       }
     });
   }
@@ -69,16 +69,16 @@ export class InicioSesion {
 
     this.authService.registrarUsuario(this.nuevoUsuario, this.nuevaContrasena).subscribe({
       next: (respuesta) => {
-        this.mensajeExito = '¡Lector afiliado con exito! Cambiando a la vista de ingreso...';
+        this.mensajeExito = '¡Usuario creado con exito!';
         setTimeout(() => {
           this.cambiarPestana(true);
         }, 2000);
       },
       error: (err) => {
         if (err.status === 409) {
-          this.mensajeError = 'Este seudonimo ya esta registrado en nuestra imprenta.';
+          this.mensajeError = 'Este nombre de usuario ya esta registrado.';
         } else {
-          this.mensajeError = 'Ocurrio un fallo en los rotativos al intentar registrar.';
+          this.mensajeError = 'Ocurrio un fallo al intentar registrar.';
         }
       }
     });

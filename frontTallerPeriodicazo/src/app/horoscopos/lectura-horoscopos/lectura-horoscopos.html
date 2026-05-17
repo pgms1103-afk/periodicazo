@@ -4,7 +4,7 @@
   <article class="articulo-completo tarjeta-vintage sombra-retro">
     <header class="cabecera-articulo">
       <div class="icono-signo-grande">{{ obtenerIcono(articulo.signo) }}</div>
-      <span class="etiqueta-categoria" style="background-color: var(--negro-periodico); color: var(--blanco-hueso); padding: 5px 10px; font-weight: bold; text-transform: uppercase;">
+      <span class="etiqueta-signo-lectura">
         {{ articulo.signo }} - Elemento: {{ articulo.elemento }}
       </span>
       <h1 class="titular-noticia">{{ articulo.titulo }}</h1>
@@ -16,12 +16,11 @@
     </header>
 
     <div class="cuerpo-periodico">
-      <p style="font-size: 18px; line-height: 1.8; color: #1a1a1a; white-space: pre-wrap; text-align: justify; font-family: 'Georgia', serif;">
+      <p class="texto-cuerpo-horoscopo">
         {{ articulo.contenido }}
       </p>
     </div>
   </article>
 
   <app-comentarios-noticias [articuloId]="articulo.id" [articuloTitulo]="articulo.titulo"></app-comentarios-noticias>
-
 </div>

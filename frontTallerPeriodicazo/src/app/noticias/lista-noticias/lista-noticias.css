@@ -75,3 +75,16 @@
   background: var(--negro-periodico);
   color: var(--blanco-hueso);
 }
+
+.icono-btn {
+  margin-right: 5px;
+}
+.texto-rojo {
+  color: #8b0000 !important;
+}
+.mensaje-vacio {
+  text-align: center;
+  font-style: italic;
+  padding: 40px;
+  color: #555;
+}

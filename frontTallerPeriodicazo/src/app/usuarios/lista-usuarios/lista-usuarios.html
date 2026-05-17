@@ -1,10 +1,12 @@
 <div class="contenedor-modulo">
   <div class="encabezado-modulo">
-    <h2 class="titulo-marca">Directorio de Lectores y Personal</h2>
-    <button class="boton-retro" (click)="abrirParaCrear()">Registrar Nuevo</button>
+    <h2 class="titulo-marca">Lista de Usuarios</h2>
+    <button class="boton-retro" (click)="abrirParaCrear()">
+      <i class="fa-solid fa-user-plus icono-btn"></i> Crear Usuario
+    </button>
   </div>
 
-  <div *ngIf="mensajeError" style="color: #8b0000; font-weight: bold; text-align: center; margin-bottom: 15px;">
+  <div *ngIf="mensajeError" class="alerta-error-retro-centro">
     [FE DE ERRATAS]: {{ mensajeError }}
   </div>
 
@@ -24,13 +26,17 @@
         <td>{{ u.username }}</td>
         <td><span class="etiqueta-rol-tabla">{{ u.role }}</span></td>
         <td>
-          <button class="boton-accion-tabla" (click)="abrirParaEditar(u)">Modificar</button>
+          <button class="boton-accion-tabla" (click)="abrirParaEditar(u)">
+            <i class="fa-solid fa-user-gear icono-btn"></i> Modificar
+          </button>
 
-          <button class="boton-accion-tabla" (click)="suspenderUsuario(u.id)">Suspender</button>
+          <button class="boton-accion-tabla texto-rojo" (click)="suspenderUsuario(u.id)">
+            <i class="fa-solid fa-user-slash icono-btn"></i> Eliminar
+          </button>
         </td>
       </tr>
       <tr *ngIf="usuarios.length === 0">
-        <td colspan="4" style="text-align: center; padding: 20px; font-style: italic;">
+        <td colspan="4" class="mensaje-vacio-tabla">
           No hay personal registrado en los rotativos aún.
         </td>
       </tr>
@@ -45,3 +51,4 @@
   [usuarioAEditar]="usuarioSeleccionado"
   (alCerrar)="cerrarModal()">
 </app-formulario-usuario>
+
