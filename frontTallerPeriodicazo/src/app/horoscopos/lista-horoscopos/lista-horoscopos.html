@@ -16,9 +16,7 @@
 
   <div class="cuadricula-tarjetas">
     <div class="tarjeta-vintage sombra-retro tarjeta-contenido centrado" *ngFor="let h of horoscopos">
-      <div class="icono-signo" style="margin-bottom: 15px;">
-        <img [src]="obtenerIcono(h.signo)" alt="Signo {{ h.signo }}" style="width: 55px; height: 55px; opacity: 0.9;">
-      </div>
+      <div class="icono-signo">{{ obtenerIcono(h.signo) }}</div>
       <h3 class="titulo-articulo">{{ h.signo }}</h3>
       <span class="fecha-horoscopo">Elemento: {{ h.elemento }}</span>
       <h4 style="margin: 0 0 10px 0; font-family: 'Georgia', serif; font-style: italic;">{{ h.titulo }}</h4>
