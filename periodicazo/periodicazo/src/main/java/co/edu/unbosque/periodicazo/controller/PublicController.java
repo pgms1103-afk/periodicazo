@@ -58,9 +58,7 @@ public class PublicController {
 	 * el registro.
 	 * </p>
 	 *
-	 * @param nombreUsuario nombre de usuario deseado para el nuevo registro
-	 * @param contrasena    contraseña del nuevo usuario en texto plano, será
-	 *                      encriptada antes de almacenarse
+	 * @param UsuarioDTO refiere al dto de usuario, para poder crear uno nuevo.
 	 * @return {@code 201 Created} si el usuario fue registrado exitosamente,
 	 *         {@code 409 Conflict} si el nombre de usuario ya está en uso,
 	 *         {@code 400 Bad Request} si ocurrió un error durante el registro
@@ -95,8 +93,7 @@ public class PublicController {
 	 * endpoints protegidos.
 	 * </p>
 	 *
-	 * @param usuario    nombre de usuario registrado en el sistema
-	 * @param contrasena contraseña del usuario en texto plano
+	 * @param UsuarioDTO refiere al dto de usuario, para poder crear uno nuevo.
 	 * @return {@code 200 OK} con un objeto {@link AuthResponse} que contiene el
 	 *         token JWT y el rol del usuario si las credenciales son válidas,
 	 *         {@code 401 Unauthorized} si las credenciales son incorrectas o el
