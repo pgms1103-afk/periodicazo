@@ -48,6 +48,19 @@
   color: var(--gris-claro);
 }
 
+.espaciado-articulo {
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.texto-cuerpo-noticia {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #1a1a1a;
+  white-space: pre-wrap;
+  text-align: justify;
+  font-family: 'Georgia', serif;
+  margin: 0;
+}
 
 @media (max-width: 768px) {
   .titular-gigante {

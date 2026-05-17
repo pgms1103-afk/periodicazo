@@ -86,3 +86,7 @@
   color: var(--blanco-hueso);
   padding: 0 10px;
 }
+
+.icono-nav {
+  margin-right: 6px;
+}

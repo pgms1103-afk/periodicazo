@@ -73,3 +73,42 @@
   line-height: 1.6;
   text-align: justify;
 }
+
+.tarjeta-independiente {
+  padding: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+  margin-top: 20px;
+}
+.subtitulo-independiente {
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  margin: 0 0 10px 0;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.titulo-independiente {
+  font-family: 'Georgia', serif;
+  font-size: 26px;
+  margin: 0;
+  line-height: 1.2;
+  color: #111;
+  text-transform: uppercase;
+}
+.alerta-error-comentario {
+  color: #8b0000;
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.icono-comentario {
+  margin-right: 5px;
+  font-size: 11px;
+}
+.comentarios-vacios {
+  text-align: center;
+  font-style: italic;
+  color: #555;
+  padding: 20px;
+}

@@ -72,7 +72,25 @@
   font-weight: bold;
 }
 
+.etiqueta-signo-lectura {
+  background-color: var(--negro-periodico);
+  color: var(--blanco-hueso);
+  padding: 5px 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.texto-cuerpo-horoscopo {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #1a1a1a;
+  white-space: pre-wrap;
+  text-align: justify;
+  font-family: 'Georgia', serif;
+  margin: 0;
+}
+
 @media (max-width: 900px) {
   .cuerpo-periodico { column-count: 1; }
   .titular-noticia { font-size: 30px; }
 }
+

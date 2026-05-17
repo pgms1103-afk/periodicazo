@@ -29,17 +29,20 @@
         <input type="password" class="entrada-vintage" [(ngModel)]="password" name="password" [placeholder]="modoEditar ? 'Dejar en blanco para mantener la actual' : '••••••••'">
       </div>
 
-      <div *ngIf="mensajeError" style="color: #8b0000; font-weight: bold; margin-bottom: 15px; font-size: 13px; text-align: center;">
+      <div *ngIf="mensajeError" class="alerta-error-modal">
         [FE DE ERRATAS]: {{ mensajeError }}
       </div>
-      <div *ngIf="mensajeExito" style="color: #005a00; font-weight: bold; margin-bottom: 15px; font-size: 13px; text-align: center;">
+
+      <div *ngIf="mensajeExito" class="alerta-exito-modal">
         [BOLETIN OFICIAL]: {{ mensajeExito }}
       </div>
 
       <div class="acciones-modal">
-        <button type="button" class="boton-retro-secundario" (click)="cerrar()">Cancelar</button>
+        <button type="button" class="boton-retro-secundario" (click)="cerrar()">
+          <i class="fa-solid fa-xmark icono-btn"></i> Cancelar
+        </button>
         <button type="button" class="boton-retro" (click)="guardarUsuario()">
-          {{ modoEditar ? 'Guardar Cambios' : 'Dar de Alta' }}
+          <i class="fa-solid fa-floppy-disk icono-btn"></i> {{ modoEditar ? 'Guardar Cambios' : 'Dar de Alta' }}
         </button>
       </div>
     </form>
