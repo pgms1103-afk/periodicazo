@@ -57,23 +57,12 @@ export class ListaHoroscopos implements OnInit {
     this.router.navigate(['/comentarios'], { state: { articulo: horoscopo } });
   }
 
-  // CORREGIDO: Ahora retorna la ruta de tus archivos SVG locales
   obtenerIcono(signo: string | undefined): string {
     const iconos: { [key: string]: string } = {
-      'Aries': 'aries-solid-full.svg',
-      'Tauro': 'taurus-solid-full.svg',
-      'Geminis': 'gemini-solid-full.svg',
-      'Cancer': 'cancer-solid-full.svg',
-      'Leo': 'leo-solid-full.svg',
-      'Virgo': 'virgo-solid-full.svg',
-      'Libra': 'libra-solid-full.svg',
-      'Escorpio': 'scorpio-solid-full.svg',
-      'Sagitario': 'sagittarius-solid-full.svg',
-      'Capricornio': 'capricorn-solid-full.svg',
-      'Acuario': 'aquarius-solid-full.svg',
-      'Piscis': 'pisces-solid-full.svg'
+      'Aries': '♈', 'Tauro': '♉', 'Geminis': '♊', 'Cancer': '♋',
+      'Leo': '♌', 'Virgo': '♍', 'Libra': '♎', 'Escorpio': '♏',
+      'Sagitario': '♐', 'Capricornio': '♑', 'Acuario': '♒', 'Piscis': '♓'
     };
-    // Si no encuentra el signo, por defecto cargará aries para evitar errores
-    return signo ? (iconos[signo] || 'aries-solid-full.svg') : 'aries-solid-full.svg';
+    return signo ? (iconos[signo] || '✨') : '✨';
   }
 }
