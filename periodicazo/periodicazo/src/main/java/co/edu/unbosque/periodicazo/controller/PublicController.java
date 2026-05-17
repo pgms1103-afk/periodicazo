@@ -10,11 +10,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import co.edu.unbosque.periodicazo.dto.UsuarioDTO;
 import co.edu.unbosque.periodicazo.entity.Usuario;
+import co.edu.unbosque.periodicazo.exception.ContrasenaInvalidaException;
 import co.edu.unbosque.periodicazo.security.JwtUtil;
 import co.edu.unbosque.periodicazo.service.UsuarioService;
 
@@ -52,55 +54,59 @@ public class PublicController {
 	/**
 	 * Registra un nuevo usuario en el sistema con rol {@code USUARIO} por defecto.
 	 * <p>
-	 * Verifica primero si el nombre de usuario ya está en uso antes de proceder
-	 * con el registro.
+	 * Verifica primero si el nombre de usuario ya está en uso antes de proceder con
+	 * el registro.
 	 * </p>
 	 *
 	 * @param nombreUsuario nombre de usuario deseado para el nuevo registro
-	 * @param contrasena    contraseña del nuevo usuario en texto plano,
-	 *                      será encriptada antes de almacenarse
+	 * @param contrasena    contraseña del nuevo usuario en texto plano, será
+	 *                      encriptada antes de almacenarse
 	 * @return {@code 201 Created} si el usuario fue registrado exitosamente,
 	 *         {@code 409 Conflict} si el nombre de usuario ya está en uso,
 	 *         {@code 400 Bad Request} si ocurrió un error durante el registro
 	 */
 	@PostMapping("/registrarusuario")
-	public ResponseEntity<String> registrarUsuario(@RequestParam String nombreUsuario,
-			@RequestParam String contrasena) {
-		if (usuarioSer.findUsernameAlreadyTaken(nombreUsuario)) {
+	public ResponseEntity<String> registrarUsuario(@RequestBody UsuarioDTO dto) {
+		try {
+		if (usuarioSer.findUsernameAlreadyTaken(dto.getUsername())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("El nombre de usuario ya existe");
 		}
-
-		UsuarioDTO nuevo = new UsuarioDTO();
-		nuevo.setUsername(nombreUsuario);
-		nuevo.setPassword(contrasena);
-		int status = usuarioSer.create(nuevo);
-		if (status == 0) {
-			return new ResponseEntity<>("Usuario registrado con éxito", HttpStatus.CREATED);
-		} else {
-			return new ResponseEntity<>("Error al registrarse", HttpStatus.BAD_REQUEST);
+		
+			UsuarioDTO nuevo = new UsuarioDTO();
+			nuevo.setUsername(dto.getUsername());
+			nuevo.setPassword(dto.getPassword());
+			int status = usuarioSer.create(nuevo);
+			if (status == 0) {
+				return new ResponseEntity<>("Usuario registrado con éxito", HttpStatus.CREATED);
+			} else {
+				return new ResponseEntity<>("Error al registrarse", HttpStatus.BAD_REQUEST);
+			}
+		} catch (ContrasenaInvalidaException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	/**
 	 * Autentica un usuario y devuelve un token JWT junto con su rol.
 	 * <p>
-	 * Valida las credenciales del usuario contra la base de datos. Si son correctas,
-	 * genera un token JWT que deberá enviarse en el header {@code Authorization}
-	 * como {@code Bearer <token>} para acceder a los endpoints protegidos.
+	 * Valida las credenciales del usuario contra la base de datos. Si son
+	 * correctas, genera un token JWT que deberá enviarse en el header
+	 * {@code Authorization} como {@code Bearer <token>} para acceder a los
+	 * endpoints protegidos.
 	 * </p>
 	 *
-	 * @param usuario   nombre de usuario registrado en el sistema
+	 * @param usuario    nombre de usuario registrado en el sistema
 	 * @param contrasena contraseña del usuario en texto plano
-	 * @return {@code 200 OK} con un objeto {@link AuthResponse} que contiene el token JWT
-	 *         y el rol del usuario si las credenciales son válidas,
-	 *         {@code 401 Unauthorized} si las credenciales son incorrectas o el usuario
-	 *         no existe
+	 * @return {@code 200 OK} con un objeto {@link AuthResponse} que contiene el
+	 *         token JWT y el rol del usuario si las credenciales son válidas,
+	 *         {@code 401 Unauthorized} si las credenciales son incorrectas o el
+	 *         usuario no existe
 	 */
 	@PostMapping("/login")
-	public ResponseEntity<Object> login(@RequestParam String usuario, @RequestParam String contrasena) {
+	public ResponseEntity<Object> login(@RequestBody UsuarioDTO dto) {
 		try {
-			Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(usuario, contrasena));
+			Authentication authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(dto.getUsername(), dto.getPassword()));
 
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			String jwt = jwtUtil.generateToken(userDetails);
@@ -113,18 +119,18 @@ public class PublicController {
 
 			return ResponseEntity.ok(new AuthResponse(jwt, role));
 		} catch (AuthenticationException e) {
-			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 					.body("Nombre de usuario o contraseña inválidos o usuario no encontrado");
 		}
 	}
 
 	/**
-	 * Clase interna que representa la respuesta de autenticación enviada al cliente.
+	 * Clase interna que representa la respuesta de autenticación enviada al
+	 * cliente.
 	 * <p>
-	 * Contiene el token JWT generado y el rol del usuario autenticado,
-	 * permitiendo al frontend saber qué permisos tiene el usuario
-	 * sin necesidad de decodificar el token.
+	 * Contiene el token JWT generado y el rol del usuario autenticado, permitiendo
+	 * al frontend saber qué permisos tiene el usuario sin necesidad de decodificar
+	 * el token.
 	 * </p>
 	 */
 	private static class AuthResponse {
