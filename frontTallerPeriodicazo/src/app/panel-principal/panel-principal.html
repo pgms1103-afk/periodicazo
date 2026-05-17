@@ -1,0 +1,59 @@
+<div class="contenedor-modulo">
+
+  <div class="encabezado-modulo">
+    <h2 class="titulo-marca">Mesa de Estadísticas y Control</h2>
+  </div>
+
+  <h3 class="subtitulo-seccion">Directorio de Personal</h3>
+  <div class="cuadricula-estadisticas tarjeta-vintage sombra-retro mb-40">
+    <div class="tarjeta-estadistica">
+      <span class="numero-grande">{{ totalAdmins }}</span>
+      <h3 class="etiqueta-categoria">Directores (Admin)</h3>
+    </div>
+    <div class="tarjeta-estadistica">
+      <span class="numero-grande">{{ totalEditores }}</span>
+      <h3 class="etiqueta-categoria">Editores Activos</h3>
+    </div>
+    <div class="tarjeta-estadistica">
+      <span class="numero-grande">{{ totalComentaristas }}</span>
+      <h3 class="etiqueta-categoria">Comentaristas</h3>
+    </div>
+    <div class="tarjeta-estadistica">
+      <span class="numero-grande">{{ totalLectores }}</span>
+      <h3 class="etiqueta-categoria">Lectores (Usuarios)</h3>
+    </div>
+  </div>
+
+  <h3 class="subtitulo-seccion">Archivo de Noticias (Total: {{ totalNoticias }})</h3>
+  <div class="cuadricula-estadisticas tarjeta-vintage sombra-retro mb-40" style="grid-template-columns: repeat(5, 1fr);">
+    <div class="tarjeta-estadistica">
+      <span class="numero-grande">{{ cntPolitica }}</span>
+      <h3 class="etiqueta-categoria">Política</h3>
+    </div>
+    <div class="tarjeta-estadistica">
+      <span class="numero-grande">{{ cntEconomia }}</span>
+      <h3 class="etiqueta-categoria">Economía</h3>
+    </div>
+    <div class="tarjeta-estadistica">
+      <span class="numero-grande">{{ cntCultura }}</span>
+      <h3 class="etiqueta-categoria">Cultura</h3>
+    </div>
+    <div class="tarjeta-estadistica">
+      <span class="numero-grande">{{ cntDeportes }}</span>
+      <h3 class="etiqueta-categoria">Deportes</h3>
+    </div>
+    <div class="tarjeta-estadistica">
+      <span class="numero-grande">{{ cntTecnologia }}</span>
+      <h3 class="etiqueta-categoria">Tecnología</h3>
+    </div>
+  </div>
+
+  <h3 class="subtitulo-seccion">Registros Astrales (Total: {{ totalHoroscopos }})</h3>
+  <div class="cuadricula-zodiaco tarjeta-vintage sombra-retro">
+    <div class="tarjeta-estadistica-pequena" *ngFor="let signo of signosZodiacales">
+      <span class="numero-mediano">{{ horoscoposPorSigno[signo] }}</span>
+      <h3 class="etiqueta-categoria">{{ signo }}</h3>
+    </div>
+  </div>
+
+</div>

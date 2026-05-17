@@ -1,0 +1,47 @@
+<div class="contenedor-modulo">
+  <div class="encabezado-modulo">
+    <h2 class="titulo-marca">Directorio de Lectores y Personal</h2>
+    <button class="boton-retro" (click)="abrirParaCrear()">Registrar Nuevo</button>
+  </div>
+
+  <div *ngIf="mensajeError" style="color: #8b0000; font-weight: bold; text-align: center; margin-bottom: 15px;">
+    [FE DE ERRATAS]: {{ mensajeError }}
+  </div>
+
+  <div class="tarjeta-vintage sombra-retro contenedor-tabla">
+    <table class="tabla-retro">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre o Seudonimo</th>
+        <th>Cargo / Rol</th>
+        <th>Acciones Editoriales</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let u of usuarios">
+        <td class="celda-destacada">#{{ u.id }}</td>
+        <td>{{ u.username }}</td>
+        <td><span class="etiqueta-rol-tabla">{{ u.role }}</span></td>
+        <td>
+          <button class="boton-accion-tabla" (click)="abrirParaEditar(u)">Modificar</button>
+
+          <button class="boton-accion-tabla" (click)="suspenderUsuario(u.id)">Suspender</button>
+        </td>
+      </tr>
+      <tr *ngIf="usuarios.length === 0">
+        <td colspan="4" style="text-align: center; padding: 20px; font-style: italic;">
+          No hay personal registrado en los rotativos aún.
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-formulario-usuario
+  [mostrar]="modalVisible"
+  [modoEditar]="modoEdicionActivo"
+  [usuarioAEditar]="usuarioSeleccionado"
+  (alCerrar)="cerrarModal()">
+</app-formulario-usuario>

@@ -1,0 +1,27 @@
+<div class="contenedor-modulo" *ngIf="articulo">
+  <button class="boton-volver" routerLink="/horoscopos">← Volver a Seccion Astral</button>
+
+  <article class="articulo-completo tarjeta-vintage sombra-retro">
+    <header class="cabecera-articulo">
+      <div class="icono-signo-grande">{{ obtenerIcono(articulo.signo) }}</div>
+      <span class="etiqueta-categoria" style="background-color: var(--negro-periodico); color: var(--blanco-hueso); padding: 5px 10px; font-weight: bold; text-transform: uppercase;">
+        {{ articulo.signo }} - Elemento: {{ articulo.elemento }}
+      </span>
+      <h1 class="titular-noticia">{{ articulo.titulo }}</h1>
+      <div class="linea-info-autor">
+        <span>Astrologo: {{ articulo.autor || 'Profesor Anónimo' }}</span>
+        <span>|</span>
+        <span *ngIf="articulo.fecha">Edicion: {{ articulo.fecha | date:'dd/MM/yyyy' }}</span>
+      </div>
+    </header>
+
+    <div class="cuerpo-periodico">
+      <p style="font-size: 18px; line-height: 1.8; color: #1a1a1a; white-space: pre-wrap; text-align: justify; font-family: 'Georgia', serif;">
+        {{ articulo.contenido }}
+      </p>
+    </div>
+  </article>
+
+  <app-comentarios-noticias [articuloId]="articulo.id" [articuloTitulo]="articulo.titulo"></app-comentarios-noticias>
+
+</div>

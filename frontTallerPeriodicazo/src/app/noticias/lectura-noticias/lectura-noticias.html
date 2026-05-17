@@ -1,0 +1,36 @@
+<div class="contenedor-modulo" *ngIf="articulo">
+
+  <div class="seccion-lectura-noticia">
+
+    <button class="boton-volver" routerLink="/noticias">VOLVER A PORTADA</button>
+
+    <article style="margin-top: 20px; margin-bottom: 40px;">
+
+      <header class="cabecera-noticia-clasica">
+        <p class="categoria-texto">{{ articulo.categoria }}</p>
+
+        <h1 class="titular-gigante">
+          {{ articulo.titulo }}
+        </h1>
+
+        <div class="metadatos-linea">
+          <span>CORRESPONSAL: {{ articulo.autor || 'REDACCION CENTRAL' | uppercase }}</span>
+          <span class="separador-pipe">|</span>
+          <span>CASA EDITORIAL: {{ articulo.editorial || 'TALLERES DEL DIARIO' | uppercase }}</span>
+          <span *ngIf="articulo.fecha" class="separador-pipe">|</span>
+          <span *ngIf="articulo.fecha">IMPRESION: {{ articulo.fecha | date:'dd/MM/yyyy - hh:mm a' | uppercase }}</span>
+        </div>
+      </header>
+
+      <div class="cuerpo-articulo-completo">
+        <p style="font-size: 18px; line-height: 1.8; color: #1a1a1a; white-space: pre-wrap; text-align: justify; font-family: 'Georgia', serif; margin: 0;">
+          {{ articulo.contenido }}
+        </p>
+      </div>
+    </article>
+
+  </div>
+
+  <app-comentarios-noticias [articuloId]="articulo.id" [articuloTitulo]="articulo.titulo"></app-comentarios-noticias>
+
+</div>
