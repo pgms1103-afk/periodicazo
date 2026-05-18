@@ -1,55 +1,50 @@
-<div class="contenedor-modulo">
-
+<div class="contenedor-modulo animate__animated animate__fadeIn">
   <div class="encabezado-modulo">
     <h2 class="titulo-marca">Mesa de Estadísticas y Control</h2>
   </div>
 
-  <h3 class="subtitulo-seccion">Directorio de Personal</h3>
-  <div class="cuadricula-estadisticas tarjeta-vintage sombra-retro mb-40">
-    <div class="tarjeta-estadistica">
-      <span class="numero-grande">{{ totalAdmins }}</span>
-      <h3 class="etiqueta-categoria">Directores (Admin)</h3>
+  <div class="cuadricula-kpi animate__animated animate__fadeInUp">
+    <div class="kpi-vintage sombra-retro">
+      <i class="fa-solid fa-users icono-kpi"></i>
+      <div class="info-kpi">
+        <span class="valor-kpi">{{ totalAdmins + totalEditores + totalComentaristas + totalLectores }}</span>
+        <span class="etiqueta-kpi">Personal Total</span>
+      </div>
     </div>
-    <div class="tarjeta-estadistica">
-      <span class="numero-grande">{{ totalEditores }}</span>
-      <h3 class="etiqueta-categoria">Editores Activos</h3>
+    <div class="kpi-vintage sombra-retro">
+      <i class="fa-solid fa-newspaper icono-kpi"></i>
+      <div class="info-kpi">
+        <span class="valor-kpi">{{ totalNoticias }}</span>
+        <span class="etiqueta-kpi">Tiraje Noticias</span>
+      </div>
     </div>
-    <div class="tarjeta-estadistica">
-      <span class="numero-grande">{{ totalComentaristas }}</span>
-      <h3 class="etiqueta-categoria">Comentaristas</h3>
-    </div>
-    <div class="tarjeta-estadistica">
-      <span class="numero-grande">{{ totalLectores }}</span>
-      <h3 class="etiqueta-categoria">Lectores (Usuarios)</h3>
-    </div>
-  </div>
-
-  <h3 class="subtitulo-seccion">Archivo de Noticias (Total: {{ totalNoticias }})</h3>
-  <div class="cuadricula-estadisticas tarjeta-vintage sombra-retro mb-40 cuadricula-cinco-columnas">
-    <div class="tarjeta-estadistica">
-      <span class="numero-grande">{{ cntPolitica }}</span>
-      <h3 class="etiqueta-categoria">Política</h3>
-    </div>
-    <div class="tarjeta-estadistica">
-      <span class="numero-grande">{{ cntEconomia }}</span>
-      <h3 class="etiqueta-categoria">Economía</h3>
-    </div>
-    <div class="tarjeta-estadistica">
-      <span class="numero-grande">{{ cntCultura }}</span>
-      <h3 class="etiqueta-categoria">Cultura</h3>
-    </div>
-    <div class="tarjeta-estadistica">
-      <span class="numero-grande">{{ cntDeportes }}</span>
-      <h3 class="etiqueta-categoria">Deportes</h3>
-    </div>
-    <div class="tarjeta-estadistica">
-      <span class="numero-grande">{{ cntTecnologia }}</span>
-      <h3 class="etiqueta-categoria">Tecnología</h3>
+    <div class="kpi-vintage sombra-retro">
+      <i class="fa-solid fa-moon icono-kpi"></i>
+      <div class="info-kpi">
+        <span class="valor-kpi">{{ totalHoroscopos }}</span>
+        <span class="etiqueta-kpi">Registros Astrales</span>
+      </div>
     </div>
   </div>
 
-  <h3 class="subtitulo-seccion">Registros Astrales (Total: {{ totalHoroscopos }})</h3>
-  <div class="cuadricula-zodiaco tarjeta-vintage sombra-retro">
+  <div class="zona-graficos">
+
+    <div class="tarjeta-grafico tarjeta-vintage sombra-retro animate__animated animate__fadeInLeft">
+      <h3 class="titulo-grafico"><i class="fa-solid fa-chart-column mr-5"></i> Volumen de Impresión por Categoría</h3>
+      <div class="contenedor-canvas">
+        <canvas id="canvasNoticias"></canvas> </div>
+    </div>
+
+    <div class="tarjeta-grafico tarjeta-vintage sombra-retro animate__animated animate__fadeInRight">
+      <h3 class="titulo-grafico"><i class="fa-solid fa-chart-pie mr-5"></i> Distribución de Credenciales</h3>
+      <div class="contenedor-canvas">
+        <canvas id="canvasUsuarios"></canvas> </div>
+    </div>
+
+  </div>
+
+  <h3 class="subtitulo-seccion animate__animated animate__fadeInUp">Lecturas del Zodiaco Activas</h3>
+  <div class="cuadricula-zodiaco sombra-retro animate__animated animate__fadeInUp">
     <div class="tarjeta-estadistica-pequena" *ngFor="let signo of signosZodiacales">
       <span class="numero-mediano">{{ horoscoposPorSigno[signo] }}</span>
       <h3 class="etiqueta-categoria">{{ signo }}</h3>

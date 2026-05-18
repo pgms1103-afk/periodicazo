@@ -12,6 +12,12 @@ import {LecturaHoroscopo} from './horoscopos/lectura-horoscopos/lectura-horoscop
 
 import {roleGuard} from './guards/role.guard';
 
+/**
+ * Arreglo que define la configuración de enrutamiento principal de la aplicación.
+ * Asocia rutas (URLs) con sus respectivos componentes y aplica controles de acceso (Guards)
+ * basados en los roles de los usuarios mediante la propiedad `data`.
+ * @type {Routes}
+ */
 export const routes: Routes = [
   {path: '', redirectTo: 'inicio-sesion', pathMatch: 'full'},
   {path: 'inicio-sesion', component: InicioSesion},

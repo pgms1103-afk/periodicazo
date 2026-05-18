@@ -15,7 +15,7 @@
   </div>
 
   <div class="cuadricula-tarjetas">
-    <div class="tarjeta-vintage sombra-retro tarjeta-contenido" *ngFor="let n of noticias">
+    <div class="tarjeta-vintage sombra-retro tarjeta-contenido animate__animated animate__fadeInUp" *ngFor="let n of noticias">
       <span class="etiqueta-categoria">{{ n.categoria }}</span>
       <h3 class="titulo-articulo">{{ n.titulo }}</h3>
       <p class="resumen-articulo">{{ n.contenido | slice:0:120 }}...</p>

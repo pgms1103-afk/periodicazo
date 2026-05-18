@@ -8,9 +8,14 @@
         {{ articulo.signo }} - Elemento: {{ articulo.elemento }}
       </span>
       <h1 class="titular-noticia">{{ articulo.titulo }}</h1>
+
       <div class="linea-info-autor">
-        <span>Astrologo: {{ articulo.autor || 'Profesor Anónimo' }}</span>
+        <span>Astrologo: {{ articulo.autor || 'Profesor Anonimo' }}</span>
         <span>|</span>
+
+        <span>Editorial: {{ articulo.editorial || 'Gabinete Astral Central' }}</span>
+
+        <span *ngIf="articulo.fecha">|</span>
         <span *ngIf="articulo.fecha">Edicion: {{ articulo.fecha | date:'dd/MM/yyyy' }}</span>
       </div>
     </header>
