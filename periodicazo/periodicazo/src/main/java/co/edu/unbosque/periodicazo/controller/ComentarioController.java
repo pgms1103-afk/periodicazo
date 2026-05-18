@@ -39,6 +39,10 @@ public class ComentarioController {
 
 	/**
 	 * Crea un nuevo comentario asociado a una publicación existente.
+	 * <p>
+	 * El comentario queda vinculado a la publicación indicada en el DTO.
+	 * Si la publicación no existe, la operación es rechazada.
+	 * </p>
 	 *
 	 * @param dto objeto {@link ComentarioDTO} con los datos del comentario a crear,
 	 *            incluyendo el contenido y el ID de la publicación asociada
@@ -58,8 +62,9 @@ public class ComentarioController {
 	/**
 	 * Obtiene la lista de todos los comentarios registrados en el sistema.
 	 *
-	 * @return {@code 200 OK} con la lista de {@link ComentarioDTO} si hay comentarios,
-	 *         {@code 204 No Content} si no existe ningún comentario registrado
+	 * @return {@code 200 OK} con la lista de {@link ComentarioDTO} si hay
+	 *         comentarios registrados,
+	 *         {@code 204 No Content} si no existe ningún comentario en el sistema
 	 */
 	@GetMapping("/mostrarcomentarios")
 	public ResponseEntity<List<ComentarioDTO>> mostrarComentarios() {
@@ -72,10 +77,15 @@ public class ComentarioController {
 	}
 
 	/**
-	 * Obtiene la lista de comentarios filtrados por el título de la publicación asociada.
+	 * Obtiene los comentarios asociados a una publicación filtrados por su título.
+	 * <p>
+	 * Permite consultar todos los comentarios que pertenecen a una publicación
+	 * específica sin necesidad de conocer su ID.
+	 * </p>
 	 *
-	 * @param titulo título de la publicación cuyos comentarios se desean consultar
-	 * @return {@code 200 OK} con la lista de {@link ComentarioDTO} que coinciden con el título,
+	 * @param titulo título exacto de la publicación cuyos comentarios se desean consultar
+	 * @return {@code 200 OK} con la lista de {@link ComentarioDTO} que coinciden
+	 *         con el título proporcionado,
 	 *         {@code 204 No Content} si no se encontraron comentarios para ese título
 	 */
 	@GetMapping("mostrarportitulo")
@@ -90,6 +100,10 @@ public class ComentarioController {
 
 	/**
 	 * Actualiza el contenido de un comentario existente identificado por su ID.
+	 * <p>
+	 * Solo se actualizan los campos proporcionados en el DTO. Si el comentario
+	 * no existe, la operación no tiene efecto.
+	 * </p>
 	 *
 	 * @param id  identificador único del comentario a actualizar
 	 * @param dto objeto {@link ComentarioDTO} con los nuevos datos del comentario
@@ -107,7 +121,11 @@ public class ComentarioController {
 	}
 
 	/**
-	 * Elimina un comentario del sistema identificado por su ID.
+	 * Elimina permanentemente un comentario del sistema identificado por su ID.
+	 * <p>
+	 * Esta operación es irreversible. Una vez eliminado, el comentario no puede
+	 * ser recuperado.
+	 * </p>
 	 *
 	 * @param id identificador único del comentario a eliminar
 	 * @return {@code 200 OK} si el comentario fue eliminado exitosamente,

@@ -147,7 +147,7 @@ public class Publicacion {
 		this.categoria = categoria;
 		this.signo = signo;
 		this.elemento = elemento;
-		this.comentarios = comentarios;
+		this.comentarios = new ArrayList<>(comentarios);
 	}
 
 	/**
