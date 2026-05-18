@@ -83,38 +83,34 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-			.cors(Customizer.withDefaults()) // Habilitamos CORS en la barrera
+			.cors(Customizer.withDefaults()) 
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth
 
-				// 1. Endpoints totalmente abiertos al público
+		
 				.requestMatchers("/public/**", "/error") 
 				.permitAll()
 				.requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
 				.permitAll()
 
-				// 2. Visualización de Publicaciones (La ven todos los roles del diario)
+			
 				.requestMatchers("/private/publicacion/mostrarportipo")
 				.hasAnyRole("USUARIO", "COMENTADOR", "EDITOR", "ADMIN")
 
-				// 3. Visualización de Comentarios (Lectores, comentadores y administrador)
+
 				.requestMatchers("/private/comentario/mostrarportitulo",
 						"/private/comentario/mostrarcomentarios")
-				.hasAnyRole("USUARIO", "COMENTADOR", "ADMIN")
+				.hasAnyRole("USUARIO", "COMENTADOR", "ADMIN", "EDITOR")
 
-				// 4. Edición y creación de Columnas (Editores y Administrador)
-				// NOTA: Se corrige a /editarPublicacion con P mayúscula para coincidir con tu Controller
+
 				.requestMatchers("/private/publicacion/editarPublicacion",
 						"/private/publicacion/mostrartodo")
 				.hasAnyRole("EDITOR", "ADMIN")
 
-				// 5. Escritura y Modificación de Comentarios (Comentadores y Administrador)
-				// NOTA: Se corrige el prefijo de /actualizarcomentario a la sección de comentario
 				.requestMatchers("/private/comentario/crearcomentario",
-						"/private/comentario/actualizarcomentario")
+						"/private/comentario/actualizarcomentario", "/private/comentario/eliminarcomentario")
 				.hasAnyRole("COMENTADOR", "ADMIN")
 
-				// 6. Protección global para el resto de la administración
 				.requestMatchers("/admin/**", "/private/publicacion/**", "/private/comentario/**")
 				.hasRole("ADMIN")
 
@@ -127,21 +123,21 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	//revisar
+
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		// Permitir explícitamente el puerto de Angular
+	
 		 configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:*"));
-		// Permitir todos los métodos, incluido OPTIONS (El explorador invisible)
+
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-		// Permitir las cabeceras personalizadas como Authorization
+
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 		// Permitir credenciales de sesión/tokens
 		configuration.setAllowCredentials(true);
 		
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		// Aplicar esta regla a absolutamente todas las rutas de la API
+	 
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}

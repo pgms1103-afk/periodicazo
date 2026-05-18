@@ -1,9 +1,9 @@
 <div class="fondo-modal" *ngIf="mostrar">
 
-  <div class="tarjeta-vintage sombra-retro caja-modal">
+  <div class="tarjeta-vintage sombra-retro caja-modal animate__animated animate__fadeInDown">
 
     <div class="encabezado-modal">
-      <h2 class="titulo-modal" *ngIf="!modoEditar">Registrar Nuevo Lector</h2>
+      <h2 class="titulo-modal" *ngIf="!modoEditar">Crear Usuario</h2>
       <h2 class="titulo-modal" *ngIf="modoEditar">Modificar Personal</h2>
       <button class="boton-cerrar-x" (click)="cerrar()">X</button>
     </div>
@@ -30,11 +30,11 @@
       </div>
 
       <div *ngIf="mensajeError" class="alerta-error-modal">
-        [FE DE ERRATAS]: {{ mensajeError }}
+        Error: {{ mensajeError }}
       </div>
 
       <div *ngIf="mensajeExito" class="alerta-exito-modal">
-        [BOLETIN OFICIAL]: {{ mensajeExito }}
+        Éxito: {{ mensajeExito }}
       </div>
 
       <div class="acciones-modal">

@@ -15,7 +15,8 @@
   </div>
 
   <div class="cuadricula-tarjetas">
-    <div class="tarjeta-vintage sombra-retro tarjeta-contenido centrado" *ngFor="let h of horoscopos">
+    <div class="tarjeta-vintage sombra-retro tarjeta-contenido centrado animate__animated animate__fadeInUp" *ngFor="let h of horoscopos">
+
       <div class="icono-signo">{{ obtenerIcono(h.signo) }}</div>
       <h3 class="titulo-articulo">{{ h.signo }}</h3>
       <span class="fecha-horoscopo">Elemento: {{ h.elemento }}</span>

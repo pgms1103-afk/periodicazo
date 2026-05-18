@@ -112,3 +112,51 @@
   color: #555;
   padding: 20px;
 }
+
+.cabecera-comentario {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.info-autor-fecha {
+  display: flex;
+  flex-direction: column;
+}
+
+.acciones-comentario-mini {
+  display: flex;
+  gap: 12px;
+}
+
+.boton-icono-mini {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--gris-oscuro);
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.boton-icono-mini:hover {
+  color: var(--negro-periodico);
+}
+
+.texto-rojo-mini:hover {
+  color: #8b0000;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mini-btn {
+  padding: 6px 12px;
+  font-size: 11px;
+}
+.modo-edicion-comentario {
+  background-color: rgba(0,0,0,0.03);
+  padding: 15px;
+  border: 1px dashed var(--gris-oscuro);
+}

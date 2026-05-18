@@ -19,4 +19,14 @@ export class ComentarioService {
   crearComentario(comentario: Comentario): Observable<any> {
     return this.http.post(`${this.urlComentario}/crearcomentario`, comentario, { responseType: 'text' });
   }
+
+  actualizarComentario(id: number, comentario: Comentario): Observable<any> {
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.put(`${this.urlComentario}/actualizarcomentario`, comentario, { params, responseType: 'text' });
+  }
+
+  eliminarComentario(id: number): Observable<any> {
+    const params = new HttpParams().set('id', id.toString());
+    return this.http.delete(`${this.urlComentario}/eliminarcomentario`, { params, responseType: 'text' });
+  }
 }

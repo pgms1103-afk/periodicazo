@@ -38,7 +38,6 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
         }
         Usuario entity = new Usuario();
         
-        // CORRECCIÓN: Ahora busca usando data.getUsername() en lugar de entity
         if (findUsernameAlreadyTaken(data.getUsername())) {
             return 1;
         } else {
@@ -72,7 +71,6 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
             Usuario temp = found.get();
             temp.setUsername(data.getUsername());
             
-            //Solo cambia la contraseña si el administrador digitó una nueva
             if (data.getPassword() != null && !data.getPassword().trim().isEmpty()) {
                 temp.setPassword(passwordEncoder.encode(data.getPassword()));
             }
@@ -99,7 +97,6 @@ public class UsuarioService implements CRUDoperation<UsuarioDTO> {
     }
 
     public boolean findUsernameAlreadyTaken(String newUser) {
-        // CORRECCIÓN: Escudo protector contra valores nulos
         if (newUser == null) {
             return false;
         }

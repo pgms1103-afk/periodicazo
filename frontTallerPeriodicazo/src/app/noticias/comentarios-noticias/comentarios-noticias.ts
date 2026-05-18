@@ -24,6 +24,9 @@ export class ComentariosNoticias implements OnInit, OnChanges {
   esPantallaIndependiente: boolean = false;
   rolActual: string = '';
 
+  comentarioEnEdicionId: number | undefined = undefined;
+  contenidoEditado: string = '';
+
   constructor(private comentarioService: ComentarioService, private router: Router) {
     const navegacion = this.router.getCurrentNavigation();
     if (navegacion?.extras?.state && navegacion.extras.state['articulo']) {
@@ -60,19 +63,16 @@ export class ComentariosNoticias implements OnInit, OnChanges {
 
   publicarComentario(): void {
     this.mensajeError = '';
-
     if (!this.nuevoContenido || !this.nuevoContenido.trim()) {
       this.mensajeError = 'El cuerpo de la carta no puede estar vacio.';
       return;
     }
-
     if (!this.articuloId) {
       this.mensajeError = 'Error: No se pudo identificar el articulo actual.';
       return;
     }
 
     const nombreUsuario = localStorage.getItem('usuario_diario') || 'Lector Anonimo';
-
     const nuevoComentario: Comentario = {
       contenido: this.nuevoContenido,
       publicacionId: this.articuloId,
@@ -85,9 +85,51 @@ export class ComentariosNoticias implements OnInit, OnChanges {
         this.nuevoContenido = '';
         this.cargarComentarios();
       },
-      error: () => {
-        this.mensajeError = 'Fallo interno al procesar su correspondencia.';
-      }
+      error: () => this.mensajeError = 'Fallo interno al procesar su correspondencia.'
     });
+  }
+
+  iniciarEdicion(c: Comentario): void {
+    this.comentarioEnEdicionId = c.id;
+    this.contenidoEditado = c.contenido;
+    this.mensajeError = '';
+  }
+
+  cancelarEdicion(): void {
+    this.comentarioEnEdicionId = undefined;
+    this.contenidoEditado = '';
+    this.mensajeError = '';
+  }
+
+  guardarEdicion(c: Comentario): void {
+    if (!this.contenidoEditado || !this.contenidoEditado.trim()) {
+      this.mensajeError = 'La correspondencia no puede quedar en blanco.';
+      return;
+    }
+    if (!c.id) return;
+
+    const comentarioActualizado: Comentario = {
+      ...c,
+      contenido: this.contenidoEditado,
+      fecha: new Date().toISOString()
+    };
+
+    this.comentarioService.actualizarComentario(c.id, comentarioActualizado).subscribe({
+      next: () => {
+        this.cancelarEdicion();
+        this.cargarComentarios();
+      },
+      error: () => this.mensajeError = 'Error en imprenta al actualizar el comentario.'
+    });
+  }
+
+  borrarComentario(id: number | undefined): void {
+    if (!id) return;
+    if (confirm('¿Está seguro de retirar definitivamente esta correspondencia del diario?')) {
+      this.comentarioService.eliminarComentario(id).subscribe({
+        next: () => this.cargarComentarios(),
+        error: () => this.mensajeError = 'Error al intentar eliminar el comentario.'
+      });
+    }
   }
 }

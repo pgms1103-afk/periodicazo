@@ -11,7 +11,7 @@
   <div *ngIf="rolActual === 'ADMIN' || rolActual === 'COMENTADOR'" class="tarjeta-vintage sombra-retro caja-nuevo-comentario">
     <textarea class="entrada-vintage area-texto-corta" placeholder="Escriba su opinion al respecto..." [(ngModel)]="nuevoContenido" name="contenido"></textarea>
 
-    <div *ngIf="mensajeError" class="alerta-error-comentario">
+    <div *ngIf="mensajeError && !comentarioEnEdicionId" class="alerta-error-comentario">
       [FE DE ERRATAS]: {{ mensajeError }}
     </div>
 
@@ -22,17 +22,42 @@
 
   <div class="lista-comentarios">
     <div class="item-comentario" *ngFor="let c of comentarios">
+
       <div class="cabecera-comentario">
-        <span class="autor-comentario">
-          <i class="fa-solid fa-pen-nib icono-comentario"></i>
-          {{ c.nombreComentador || 'Lector Anonimo' }}
-        </span>
-        <span class="fecha-comentario" *ngIf="c.fecha">
-          <i class="fa-solid fa-clock icono-comentario"></i>
-          {{ c.fecha | date:'dd/MM/yyyy - hh:mm a' }}
-        </span>
+        <div class="info-autor-fecha">
+          <span class="autor-comentario">
+            <i class="fa-solid fa-pen-nib icono-comentario"></i> {{ c.nombreComentador || 'Lector Anonimo' }}
+          </span>
+          <span class="fecha-comentario" *ngIf="c.fecha">
+            <i class="fa-solid fa-clock icono-comentario"></i> {{ c.fecha | date:'dd/MM/yyyy - hh:mm a' }}
+          </span>
+        </div>
+
+        <div *ngIf="(rolActual === 'ADMIN' || rolActual === 'COMENTADOR') && comentarioEnEdicionId !== c.id" class="acciones-comentario-mini">
+          <button class="boton-icono-mini" (click)="iniciarEdicion(c)" title="Modificar Letra">
+            <i class="fa-solid fa-pencil"></i>
+          </button>
+          <button class="boton-icono-mini texto-rojo-mini" (click)="borrarComentario(c.id)" title="Retirar del diario">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
       </div>
-      <p class="texto-comentario">{{ c.contenido }}</p>
+
+      <p class="texto-comentario" *ngIf="comentarioEnEdicionId !== c.id">{{ c.contenido }}</p>
+
+      <div *ngIf="comentarioEnEdicionId === c.id" class="modo-edicion-comentario mt-10">
+        <textarea class="entrada-vintage area-texto-corta" [(ngModel)]="contenidoEditado"></textarea>
+
+        <div *ngIf="mensajeError && comentarioEnEdicionId === c.id" class="alerta-error-comentario">
+          [FE DE ERRATAS]: {{ mensajeError }}
+        </div>
+
+        <div class="alinear-derecha mt-10">
+          <button class="boton-retro-secundario mini-btn" (click)="cancelarEdicion()">Descartar Cambios</button>
+          <button class="boton-retro mini-btn" (click)="guardarEdicion(c)" style="margin-left: 10px;">Re-imprimir</button>
+        </div>
+      </div>
+
     </div>
 
     <div *ngIf="comentarios.length === 0" class="comentarios-vacios">
