@@ -1,12 +1,10 @@
 package co.edu.unbosque.periodicazo.security;
 
-//revisar
 import org.springframework.security.config.Customizer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
-//revisar
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,38 +24,55 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * Clase de configuración principal de seguridad de la aplicación.
  * <p>
- * Define las reglas de autorización por rol para cada endpoint, configura
- * la autenticación sin estado (stateless) mediante JWT, y registra los
- * beans necesarios para el funcionamiento de Spring Security.
+ * Define las reglas de autorización por rol para cada endpoint, configura la
+ * autenticación sin estado (stateless) mediante JWT, y registra los beans
+ * necesarios para el funcionamiento de Spring Security.
  * </p>
  * <p>
  * Las reglas de acceso configuradas son:
  * </p>
  * <ul>
- *   <li>{@code /public/**} — acceso libre sin autenticación (login y registro).</li>
- *   <li>{@code /swagger-ui/**}, {@code /v3/api-docs/**} — documentación accesible sin autenticación.</li>
- *   <li>{@code /private/publicacion/mostrarportipo} y endpoints de comentarios — accesible por {@code COMENTADOR} y {@code USUARIO}.</li>
- *   <li>{@code /private/publicacion/editarpublicacion} y listados — accesible por {@code EDITOR} y {@code ADMIN}.</li>
- *   <li>{@code /private/comentario/crearcomentario} y endpoints de comentarios — accesible por {@code COMENTADOR} y {@code ADMIN}.</li>
- *   <li>{@code /admin/**} y demás endpoints privados — accesible solo por {@code ADMIN}.</li>
+ * <li>{@code /public/**} — acceso libre sin autenticación (login y
+ * registro).</li>
+ * <li>{@code /swagger-ui/**}, {@code /v3/api-docs/**} — documentación accesible
+ * sin autenticación.</li>
+ * <li>{@code /private/publicacion/mostrarportipo} — accesible por todos los
+ * roles del sistema.</li>
+ * <li>{@code /private/comentario/**} — accesible por {@code COMENTADOR},
+ * {@code USUARIO} y {@code ADMIN}.</li>
+ * <li>{@code /private/publicacion/editarPublicacion} y listados — accesible por
+ * {@code EDITOR} y {@code ADMIN}.</li>
+ * <li>{@code /private/comentario/crearcomentario} y actualización — accesible
+ * por {@code COMENTADOR} y {@code ADMIN}.</li>
+ * <li>{@code /admin/**} y demás endpoints privados — accesible solo por
+ * {@code ADMIN}.</li>
  * </ul>
  */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-	/** Filtro de autenticación JWT que procesa los tokens en las solicitudes entrantes. */
+	/**
+	 * Filtro de autenticación JWT que procesa los tokens en las solicitudes
+	 * entrantes.
+	 */
 	private final JwtAuthenticationFilter jwtAuthFilter;
 
-	/** Servicio que carga los detalles del usuario desde la base de datos para la autenticación. */
+	/**
+	 * Servicio que carga los detalles del usuario desde la base de datos para la
+	 * autenticación.
+	 */
 	private final UserDetailsService userDetailsService;
 
 	/**
-	 * Constructor que inyecta los componentes necesarios para la configuración de seguridad.
+	 * Constructor que inyecta los componentes necesarios para la configuración de
+	 * seguridad.
 	 *
-	 * @param jwtAuthFilter      filtro para interceptar y procesar tokens JWT en cada solicitud
-	 * @param userDetailsService servicio para cargar los detalles del usuario durante la autenticación,
-	 *                           calificado con {@code userDetailsServiceImpl}
+	 * @param jwtAuthFilter      filtro para interceptar y procesar tokens JWT en
+	 *                           cada solicitud
+	 * @param userDetailsService servicio para cargar los detalles del usuario
+	 *                           durante la autenticación, calificado con
+	 *                           {@code userDetailsServiceImpl}
 	 */
 	public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter,
 			@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
@@ -68,80 +83,78 @@ public class SecurityConfig {
 	/**
 	 * Configura la cadena de filtros de seguridad HTTP.
 	 * <p>
-	 * Deshabilita CSRF (no necesario en APIs REST stateless), define las reglas
-	 * de autorización por rol para cada grupo de endpoints, configura la política
-	 * de sesión como {@link SessionCreationPolicy#STATELESS} (sin sesión del lado
-	 * del servidor) y agrega el filtro JWT antes del filtro de autenticación
-	 * estándar de Spring Security.
+	 * Deshabilita CSRF (no necesario en APIs REST stateless), define las reglas de
+	 * autorización por rol para cada grupo de endpoints, configura la política de
+	 * sesión como {@link SessionCreationPolicy#STATELESS} (sin sesión del lado del
+	 * servidor) y agrega el filtro JWT antes del filtro de autenticación estándar
+	 * de Spring Security.
 	 * </p>
 	 *
-	 * @param http objeto de configuración de seguridad HTTP proporcionado por Spring
+	 * @param http objeto de configuración de seguridad HTTP proporcionado por
+	 *             Spring
 	 * @return cadena de filtros de seguridad construida y configurada
 	 * @throws Exception si ocurre un error durante la configuración de seguridad
 	 */
-	//revisar
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-			.cors(Customizer.withDefaults()) // Habilitamos CORS en la barrera
-			.csrf(csrf -> csrf.disable())
-			.authorizeHttpRequests(auth -> auth
+		http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable()).authorizeHttpRequests(auth -> auth
 
-				// 1. Endpoints totalmente abiertos al público
-				.requestMatchers("/public/**", "/error") 
-				.permitAll()
-				.requestMatchers("/swagger-ui/**", "/v3/api-docs/**")
-				.permitAll()
 
-				// 2. Visualización de Publicaciones (La ven todos los roles del diario)
+				.requestMatchers("/public/**", "/error").permitAll()
+				.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+
 				.requestMatchers("/private/publicacion/mostrarportipo")
 				.hasAnyRole("USUARIO", "COMENTADOR", "EDITOR", "ADMIN")
 
-				// 3. Visualización de Comentarios (Lectores, comentadores y administrador)
-				.requestMatchers("/private/comentario/mostrarportitulo",
-						"/private/comentario/mostrarcomentarios")
+
+				.requestMatchers("/private/comentario/mostrarportitulo", "/private/comentario/mostrarcomentarios")
 				.hasAnyRole("USUARIO", "COMENTADOR", "ADMIN")
 
-				// 4. Edición y creación de Columnas (Editores y Administrador)
-				// NOTA: Se corrige a /editarPublicacion con P mayúscula para coincidir con tu Controller
-				.requestMatchers("/private/publicacion/editarPublicacion",
-						"/private/publicacion/mostrartodo")
+
+				.requestMatchers("/private/publicacion/editarPublicacion", "/private/publicacion/mostrartodo")
 				.hasAnyRole("EDITOR", "ADMIN")
 
-				// 5. Escritura y Modificación de Comentarios (Comentadores y Administrador)
-				// NOTA: Se corrige el prefijo de /actualizarcomentario a la sección de comentario
-				.requestMatchers("/private/comentario/crearcomentario",
-						"/private/comentario/actualizarcomentario")
+
+				.requestMatchers("/private/comentario/crearcomentario", "/private/comentario/actualizarcomentario")
 				.hasAnyRole("COMENTADOR", "ADMIN")
 
-				// 6. Protección global para el resto de la administración
-				.requestMatchers("/admin/**", "/private/publicacion/**", "/private/comentario/**")
-				.hasRole("ADMIN")
 
-				.anyRequest().authenticated()
-			)
-			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-			.authenticationProvider(authenticationProvider())
-			.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+				.requestMatchers("/admin/**", "/private/publicacion/**", "/private/comentario/**").hasRole("ADMIN")
+
+				.anyRequest().authenticated())
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authenticationProvider(authenticationProvider())
+				.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
 
-	//revisar
+	/**
+	 * Configura las reglas CORS (Cross-Origin Resource Sharing) de la aplicación.
+	 * <p>
+	 * Permite peticiones desde cualquier puerto de {@code localhost}, lo que
+	 * facilita el desarrollo local con Angular u otros frontends sin importar el
+	 * puerto asignado dinámicamente. En producción esta configuración debe
+	 * restringirse al dominio del frontend desplegado.
+	 * </p>
+	 * <p>
+	 * Métodos permitidos: {@code GET}, {@code POST}, {@code PUT}, {@code DELETE},
+	 * {@code OPTIONS}. Headers permitidos: {@code Authorization},
+	 * {@code Content-Type}.
+	 * </p>
+	 *
+	 * @return fuente de configuración CORS aplicada a todas las rutas de la API
+	 */
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		// Permitir explícitamente el puerto de Angular
-		 configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:*"));
-		// Permitir todos los métodos, incluido OPTIONS (El explorador invisible)
+		configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:*"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-		// Permitir las cabeceras personalizadas como Authorization
 		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-		// Permitir credenciales de sesión/tokens
 		configuration.setAllowCredentials(true);
-		
+
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		// Aplicar esta regla a absolutamente todas las rutas de la API
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
@@ -149,13 +162,13 @@ public class SecurityConfig {
 	/**
 	 * Configura el proveedor de autenticación basado en DAO.
 	 * <p>
-	 * Utiliza {@link DaoAuthenticationProvider} que consulta la base de datos
-	 * a través del {@link UserDetailsService} y verifica las contraseñas
-	 * usando el {@link PasswordEncoder} configurado con BCrypt.
+	 * Utiliza {@link DaoAuthenticationProvider} que consulta la base de datos a
+	 * través del {@link UserDetailsService} y verifica las contraseñas usando el
+	 * {@link PasswordEncoder} configurado con BCrypt.
 	 * </p>
 	 *
-	 * @return proveedor de autenticación configurado con el servicio de usuarios
-	 *         y el codificador de contraseñas
+	 * @return proveedor de autenticación configurado con el servicio de usuarios y
+	 *         el codificador de contraseñas
 	 */
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
@@ -186,7 +199,8 @@ public class SecurityConfig {
 	 * durante el proceso de autenticación.
 	 * </p>
 	 *
-	 * @return instancia de {@link BCryptPasswordEncoder} como codificador de contraseñas
+	 * @return instancia de {@link BCryptPasswordEncoder} como codificador de
+	 *         contraseñas
 	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {

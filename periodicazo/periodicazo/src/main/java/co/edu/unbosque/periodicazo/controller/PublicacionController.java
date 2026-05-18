@@ -50,6 +50,7 @@ public class PublicacionController {
 	 * @param dto objeto {@link PublicacionDTO} con los datos de la publicación a crear
 	 * @return {@code 201 Created} si la publicación fue creada exitosamente,
 	 *         {@code 500 Internal Server Error} si ocurrió un error inesperado
+	 *         durante la creación
 	 */
 	@PostMapping("/crearpublicacion")
 	public ResponseEntity<String> crearPublicacion(@RequestBody PublicacionDTO dto) {
@@ -57,16 +58,21 @@ public class PublicacionController {
 		if (status == 0) {
 			return new ResponseEntity<>("Publicacion creado con éxito", HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<>("Error inesperado al crear el usuario", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("Error inesperado al crear el publicación", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	/**
 	 * Obtiene la lista de publicaciones filtradas por tipo.
+	 * <p>
+	 * Permite consultar únicamente las noticias o únicamente los horóscopos
+	 * según el tipo indicado.
+	 * </p>
 	 *
 	 * @param tipo tipo de publicación a filtrar, puede ser {@link Tipo#NOTICIA}
 	 *             o {@link Tipo#HOROSCOPO}
-	 * @return {@code 200 OK} con la lista de {@link PublicacionDTO} que coinciden con el tipo,
+	 * @return {@code 200 OK} con la lista de {@link PublicacionDTO} que coinciden
+	 *         con el tipo indicado,
 	 *         {@code 204 No Content} si no existen publicaciones del tipo indicado
 	 */
 	@GetMapping("/mostrarportipo")
@@ -106,7 +112,8 @@ public class PublicacionController {
 	 * @param id  identificador único de la publicación a actualizar
 	 * @param dto objeto {@link PublicacionDTO} con los nuevos datos de la publicación
 	 * @return {@code 200 OK} si la publicación fue actualizada exitosamente,
-	 *         {@code 204 No Content} si no existe una publicación con el ID proporcionado
+	 *         {@code 204 No Content} si no existe una publicación con el ID
+	 *         proporcionado
 	 */
 	@PutMapping("/editarPublicacion")
 	public ResponseEntity<String> editarPublicacion(@RequestParam Long id, @RequestBody PublicacionDTO dto) {
@@ -119,23 +126,25 @@ public class PublicacionController {
 	}
 
 	/**
-	 * Elimina una publicación del sistema identificada por su ID.
+	 * Elimina permanentemente una publicación del sistema identificada por su ID.
 	 * <p>
 	 * Al eliminar una publicación, sus comentarios asociados también serán
 	 * eliminados automáticamente por la configuración de cascada.
+	 * Esta operación es irreversible.
 	 * </p>
 	 *
 	 * @param id identificador único de la publicación a eliminar
 	 * @return {@code 200 OK} si la publicación fue eliminada exitosamente,
-	 *         {@code 204 No Content} si no existe una publicación con el ID proporcionado
+	 *         {@code 204 No Content} si no existe una publicación con el ID
+	 *         proporcionado
 	 */
 	@DeleteMapping("/eliminarpublicacion")
 	public ResponseEntity<String> eliminarPublicacion(@RequestParam Long id) {
 		int status = publiSer.deleteByID(id);
 		if (status == 0) {
-			return new ResponseEntity<>("Usuario eliminado con éxito", HttpStatus.OK);
+			return new ResponseEntity<>("Publicación eliminado con éxito", HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("Usuario no éxiste", HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>("Publicación no éxiste", HttpStatus.NO_CONTENT);
 		}
 	}
 }

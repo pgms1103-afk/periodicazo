@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import co.edu.unbosque.periodicazo.dto.UsuarioDTO;
 import co.edu.unbosque.periodicazo.entity.Usuario;
@@ -54,22 +53,25 @@ public class PublicController {
 	/**
 	 * Registra un nuevo usuario en el sistema con rol {@code USUARIO} por defecto.
 	 * <p>
-	 * Verifica primero si el nombre de usuario ya está en uso antes de proceder con
-	 * el registro.
+	 * Verifica primero si el nombre de usuario ya está en uso antes de proceder
+	 * con el registro. La contraseña debe cumplir los requisitos mínimos de
+	 * seguridad: al menos 8 caracteres y una letra mayúscula.
 	 * </p>
 	 *
-	 * @param UsuarioDTO refiere al dto de usuario, para poder crear uno nuevo.
+	 * @param dto objeto {@link UsuarioDTO} con el username y password del nuevo
+	 *            usuario a registrar
 	 * @return {@code 201 Created} si el usuario fue registrado exitosamente,
-	 *         {@code 409 Conflict} si el nombre de usuario ya está en uso,
-	 *         {@code 400 Bad Request} si ocurrió un error durante el registro
+	 *         {@code 400 Bad Request} si la contraseña no cumple los requisitos
+	 *         de seguridad o si ocurrió un error durante el registro,
+	 *         {@code 409 Conflict} si el nombre de usuario ya está en uso
 	 */
 	@PostMapping("/registrarusuario")
 	public ResponseEntity<String> registrarUsuario(@RequestBody UsuarioDTO dto) {
 		try {
-		if (usuarioSer.findUsernameAlreadyTaken(dto.getUsername())) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("El nombre de usuario ya existe");
-		}
-		
+			if (usuarioSer.findUsernameAlreadyTaken(dto.getUsername())) {
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("El nombre de usuario ya existe");
+			}
+
 			UsuarioDTO nuevo = new UsuarioDTO();
 			nuevo.setUsername(dto.getUsername());
 			nuevo.setPassword(dto.getPassword());
@@ -93,7 +95,8 @@ public class PublicController {
 	 * endpoints protegidos.
 	 * </p>
 	 *
-	 * @param UsuarioDTO refiere al dto de usuario, para poder crear uno nuevo.
+	 * @param dto objeto {@link UsuarioDTO} con el username y password del usuario
+	 *            que desea iniciar sesión
 	 * @return {@code 200 OK} con un objeto {@link AuthResponse} que contiene el
 	 *         token JWT y el rol del usuario si las credenciales son válidas,
 	 *         {@code 401 Unauthorized} si las credenciales son incorrectas o el
@@ -122,8 +125,7 @@ public class PublicController {
 	}
 
 	/**
-	 * Clase interna que representa la respuesta de autenticación enviada al
-	 * cliente.
+	 * Clase interna que representa la respuesta de autenticación enviada al cliente.
 	 * <p>
 	 * Contiene el token JWT generado y el rol del usuario autenticado, permitiendo
 	 * al frontend saber qué permisos tiene el usuario sin necesidad de decodificar
@@ -139,9 +141,9 @@ public class PublicController {
 		private final String role;
 
 		/**
-		 * Constructor con solo token.
+		 * Constructor que inicializa la respuesta solo con el token JWT.
 		 *
-		 * @param token token JWT generado
+		 * @param token token JWT generado para el usuario autenticado
 		 */
 		public AuthResponse(String token) {
 			this.token = token;
@@ -149,10 +151,11 @@ public class PublicController {
 		}
 
 		/**
-		 * Constructor con token y rol.
+		 * Constructor que inicializa la respuesta con el token JWT y el rol del usuario.
 		 *
 		 * @param token token JWT generado para el usuario autenticado
-		 * @param role  rol del usuario autenticado (ej. ADMIN, EDITOR, USUARIO)
+		 * @param role  rol del usuario autenticado (ej. {@code ADMIN}, {@code EDITOR},
+		 *              {@code USUARIO})
 		 */
 		public AuthResponse(String token, String role) {
 			this.token = token;
@@ -171,7 +174,8 @@ public class PublicController {
 		/**
 		 * Obtiene el rol del usuario autenticado.
 		 *
-		 * @return nombre del rol del usuario (ej. ADMIN, EDITOR, USUARIO)
+		 * @return nombre del rol del usuario (ej. {@code ADMIN}, {@code EDITOR},
+		 *         {@code USUARIO})
 		 */
 		public String getRole() {
 			return role;

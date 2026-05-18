@@ -39,11 +39,18 @@ public class AdminController {
 	private UsuarioService userSer;
 
 	/**
-	 * Crea un nuevo usuario en el sistema.
+	 * Crea un nuevo usuario en el sistema con los datos y rol especificados.
+	 * <p>
+	 * A diferencia del registro público, este endpoint permite al administrador
+	 * asignar cualquier rol al nuevo usuario. La contraseña es encriptada antes
+	 * de almacenarse.
+	 * </p>
 	 *
 	 * @param dto objeto {@link UsuarioDTO} con los datos del usuario a crear,
 	 *            incluyendo username, password y rol
 	 * @return {@code 201 Created} si el usuario fue creado exitosamente,
+	 *         {@code 400 Bad Request} si la contraseña no cumple los requisitos
+	 *         de seguridad,
 	 *         {@code 409 Conflict} si ya existe un usuario con ese username,
 	 *         {@code 500 Internal Server Error} si ocurrió un error inesperado
 	 */
@@ -66,9 +73,9 @@ public class AdminController {
 	/**
 	 * Obtiene la lista de todos los usuarios registrados en el sistema.
 	 *
-	 * @return {@code 202 Accepted} con la lista de {@link UsuarioDTO} si hay
-	 *         usuarios, {@code 204 No Content} si no existe ningún usuario
-	 *         registrado
+	 * @return {@code 200 Ok} con la lista de {@link UsuarioDTO} si hay
+	 *         usuarios registrados,
+	 *         {@code 204 No Content} si no existe ningún usuario en el sistema
 	 */
 	@GetMapping("/mostrarusuario")
 	public ResponseEntity<List<UsuarioDTO>> mostrarUsuario() {
@@ -76,12 +83,16 @@ public class AdminController {
 		if (usuarios.isEmpty()) {
 			return new ResponseEntity<List<UsuarioDTO>>(usuarios, HttpStatus.NO_CONTENT);
 		} else {
-			return new ResponseEntity<List<UsuarioDTO>>(usuarios, HttpStatus.ACCEPTED);
+			return new ResponseEntity<List<UsuarioDTO>>(usuarios, HttpStatus.OK);
 		}
 	}
 
 	/**
 	 * Actualiza los datos de un usuario existente identificado por su ID.
+	 * <p>
+	 * Permite modificar el username, password y/o rol del usuario. Si se
+	 * proporciona una nueva contraseña, será encriptada antes de almacenarse.
+	 * </p>
 	 *
 	 * @param id  identificador único del usuario a actualizar
 	 * @param dto objeto {@link UsuarioDTO} con los nuevos datos del usuario
@@ -100,7 +111,11 @@ public class AdminController {
 	}
 
 	/**
-	 * Elimina un usuario del sistema identificado por su ID.
+	 * Elimina permanentemente un usuario del sistema identificado por su ID.
+	 * <p>
+	 * Esta operación es irreversible. El usuario eliminado perderá el acceso
+	 * al sistema de forma inmediata.
+	 * </p>
 	 *
 	 * @param id identificador único del usuario a eliminar
 	 * @return {@code 200 OK} si el usuario fue eliminado exitosamente,
