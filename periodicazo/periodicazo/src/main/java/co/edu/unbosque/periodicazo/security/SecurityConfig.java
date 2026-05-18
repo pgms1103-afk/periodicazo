@@ -122,8 +122,12 @@ public class SecurityConfig {
 
 		return http.build();
 	}
-
-
+	
+	/**
+	 * Configura la fuente de configuracion de CORS para la aplicacion.
+	 *
+	 * @return la fuente de configuracion CORS
+	 */
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();

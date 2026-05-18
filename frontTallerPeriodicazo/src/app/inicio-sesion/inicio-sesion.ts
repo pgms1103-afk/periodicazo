@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
+/**
+ * Componente que gestiona el inicio de sesión y el registro de nuevos usuarios en el sistema.
+ * @class InicioSesion
+ */
 @Component({
   selector: 'app-inicio-sesion',
   standalone: true,
@@ -12,34 +16,84 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./inicio-sesion.css']
 })
 export class InicioSesion {
-  // Variables conectadas a tu HTML
-  vistaLogin: boolean = true;
+  /**
+   * Indica si se muestra el formulario de inicio de sesión (true) o el de registro (false).
+   * @type {boolean}
+   */
+  vistaLogin = true;
 
-  usuario: string = '';
-  contrasena: string = '';
+  /**
+   * Nombre de usuario para iniciar sesión.
+   * @type {string}
+   */
+  usuario = '';
 
-  nuevoUsuario: string = '';
-  nuevaContrasena: string = '';
+  /**
+   * Contraseña para iniciar sesión.
+   * @type {string}
+   */
+  contrasena = '';
 
-  mensajeError: string = '';
-  mensajeExito: string = '';
+  /**
+   * Nombre del nuevo usuario a registrar.
+   * @type {string}
+   */
+  nuevoUsuario = '';
 
+  /**
+   * Contraseña del nuevo usuario a registrar.
+   * @type {string}
+   */
+  nuevaContrasena = '';
+
+  /**
+   * Almacena y muestra los mensajes de error de validación o del servidor.
+   * @type {string}
+   */
+  mensajeError = '';
+
+  /**
+   * Almacena y muestra los mensajes de éxito, como un registro correcto.
+   * @type {string}
+   */
+  mensajeExito = '';
+
+  /**
+   * Crea una instancia del componente InicioSesion.
+   * @param {AuthService} authService - Servicio encargado de la autenticación y registro.
+   * @param {Router} router - Servicio de enrutamiento para navegar entre vistas.
+   */
   constructor(private authService: AuthService, private router: Router) {}
 
-  private extraerError(err: any): string {
-    if (err.error) {
-      if (typeof err.error === 'string') return err.error;
-      if (err.error.message) return err.error.message;
+  /**
+   * Extrae un mensaje de error legible a partir de un objeto de error devuelto por el backend.
+   * @param {unknown} err - El objeto de error capturado de la petición.
+   * @returns {string} El mensaje de error extraído o un mensaje por defecto.
+   */
+  private static extraerError(err: unknown): string {
+    const errorObj = err as { error?: string | { message?: string } };
+    if (errorObj?.error) {
+      if (typeof errorObj.error === 'string') return errorObj.error;
+      if (errorObj.error.message) return errorObj.error.message;
     }
     return 'Ocurrió un error en el servidor.';
   }
 
+  /**
+   * Alterna la vista de la interfaz entre el modo de inicio de sesión y el modo de registro.
+   * @param {boolean} esLogin - Si es `true`, muestra el inicio de sesión; si es `false`, muestra el registro.
+   * @returns {void}
+   */
   cambiarPestana(esLogin: boolean) {
     this.vistaLogin = esLogin;
     this.mensajeError = '';
     this.mensajeExito = '';
   }
 
+  /**
+   * Procesa el formulario de inicio de sesión, valida las credenciales y redirige al panel principal.
+   * @returns {void}
+   */
   entrarAlSistema() {
     this.mensajeError = '';
     this.mensajeExito = '';
@@ -54,11 +108,15 @@ export class InicioSesion {
         this.router.navigate(['/noticias']);
       },
       error: (err) => {
-        this.mensajeError = this.extraerError(err);
+        this.mensajeError = InicioSesion.extraerError(err);
       }
     });
   }
 
+  /**
+   * Procesa el formulario de registro, crea el usuario y vuelve al login tras una notificación exitosa.
+   * @returns {void}
+   */
   registrarSistema() {
     this.mensajeError = '';
     this.mensajeExito = '';
@@ -73,10 +131,10 @@ export class InicioSesion {
         this.mensajeExito = 'Suscripción exitosa. Ya puede ingresar.';
         this.nuevoUsuario = '';
         this.nuevaContrasena = '';
-        setTimeout(() => this.cambiarPestana(true), 2000);
+        setTimeout(() => { this.cambiarPestana(true); }, 2000);
       },
       error: (err) => {
-        this.mensajeError = this.extraerError(err);
+        this.mensajeError = InicioSesion.extraerError(err);
       }
     });
   }

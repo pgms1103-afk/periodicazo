@@ -3,9 +3,18 @@ import { CommonModule } from '@angular/common';
 import { PublicacionService } from '../services/publicacion.service';
 import { UsuarioService } from '../services/usuario.service';
 
-// Declaración mágica para que Angular reconozca el CDN de Chart.js
-declare var Chart: any;
+/**
+ * Declaración de Chart.js para evitar errores de tipado en TypeScript.
+ * @type {new (ctx: unknown, config: unknown) => unknown}
+ */
+declare const Chart: new (ctx: unknown, config: unknown) => unknown;
 
+/**
+ * Componente del panel principal (Dashboard) que muestra estadísticas generales del sistema,
+ * incluyendo usuarios registrados, noticias publicadas por categoría y distribución de horóscopos.
+ * @class PanelPrincipal
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-panel-principal',
   standalone: true,
@@ -15,28 +24,81 @@ declare var Chart: any;
 })
 export class PanelPrincipal implements OnInit {
 
-  totalAdmins = 0; totalEditores = 0; totalComentaristas = 0; totalLectores = 0;
-  totalNoticias = 0; cntPolitica = 0; cntEconomia = 0; cntCultura = 0; cntDeportes = 0; cntTecnologia = 0;
+  /** Total de usuarios con rol ADMIN. @type {number} */
+  totalAdmins = 0;
+  /** Total de usuarios con rol EDITOR. @type {number} */
+  totalEditores = 0;
+  /** Total de usuarios con rol COMENTADOR. @type {number} */
+  totalComentaristas = 0;
+  /** Total de usuarios con rol USUARIO. @type {number} */
+  totalLectores = 0;
+
+  /** Total general de noticias publicadas. @type {number} */
+  totalNoticias = 0;
+  /** Cantidad de noticias en la categoría Política. @type {number} */
+  cntPolitica = 0;
+  /** Cantidad de noticias en la categoría Economía. @type {number} */
+  cntEconomia = 0;
+  /** Cantidad de noticias en la categoría Cultura. @type {number} */
+  cntCultura = 0;
+  /** Cantidad de noticias en la categoría Deportes. @type {number} */
+  cntDeportes = 0;
+  /** Cantidad de noticias en la categoría Tecnología. @type {number} */
+  cntTecnologia = 0;
+
+  /** Total general de horóscopos publicados. @type {number} */
   totalHoroscopos = 0;
 
+  /**
+   * Arreglo con los nombres de los 12 signos zodiacales.
+   * @type {string[]}
+   */
   signosZodiacales = ['Aries', 'Tauro', 'Geminis', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis'];
+
+  /**
+   * Diccionario para almacenar el conteo de horóscopos por cada signo zodiacal.
+   * @type {{ [key: string]: number }}
+   */
   horoscoposPorSigno: { [key: string]: number } = {};
 
+  /**
+   * Referencia a la instancia del gráfico de dona de usuarios de Chart.js.
+   * @type {unknown}
+   */
+  graficoUsuarios: unknown = null;
 
-  graficoUsuarios: any;
-  graficoNoticias: any;
+  /**
+   * Referencia a la instancia del gráfico de barras de noticias de Chart.js.
+   * @type {unknown}
+   */
+  graficoNoticias: unknown = null;
 
+  /**
+   * Inicializa el componente y prepara el diccionario de signos zodiacales.
+   * @param {PublicacionService} publicacionService - Servicio para obtener datos de publicaciones.
+   * @param {UsuarioService} usuarioService - Servicio para obtener datos de usuarios.
+   */
   constructor(
     private publicacionService: PublicacionService,
     private usuarioService: UsuarioService
   ) {
-    this.signosZodiacales.forEach(s => this.horoscoposPorSigno[s] = 0);
+    this.signosZodiacales.forEach(s => { this.horoscoposPorSigno[s] = 0; });
   }
 
+  /**
+   * Método del ciclo de vida de Angular que se ejecuta al iniciar el componente.
+   * Llama a la función para cargar todas las estadísticas desde el backend.
+   * @returns {void}
+   */
   ngOnInit(): void {
     this.cargarEstadisticas();
   }
 
+  /**
+   * Consulta los servicios backend para obtener la cantidad de usuarios por rol,
+   * noticias por categoría y horóscopos por signo. Luego dispara el renderizado de gráficos.
+   * @returns {void}
+   */
   cargarEstadisticas() {
     this.usuarioService.obtenerUsuarios().subscribe(usuarios => {
       if (usuarios) {
@@ -73,18 +135,28 @@ export class PanelPrincipal implements OnInit {
     });
   }
 
-  private obtenerColorCSS(nombreVariable: string, colorRespaldo: string): string {
+  /**
+   * Lee el valor de una variable CSS definida en el archivo de estilos global.
+   * @param {string} nombreVariable - El nombre de la variable CSS (ej. '--mi-color').
+   * @param {string} colorRespaldo - Un color hexadecimal a usar si la variable no se encuentra.
+   * @returns {string} El valor del color encontrado o el color de respaldo.
+   */
+  private static obtenerColorCSS(nombreVariable: string, colorRespaldo: string): string {
     const color = getComputedStyle(document.documentElement).getPropertyValue(nombreVariable).trim();
     return color ? color : colorRespaldo;
   }
 
+  /**
+   * Renderiza un gráfico tipo dona (doughnut) de Chart.js mostrando la distribución de roles de usuario.
+   * Destruye el gráfico anterior si ya existía para evitar superposiciones.
+   * @returns {void}
+   */
   dibujarGraficoUsuarios() {
-    if (this.graficoUsuarios) this.graficoUsuarios.destroy();
+    if (this.graficoUsuarios) (this.graficoUsuarios as { destroy: () => void }).destroy();
 
-
-    const colorNegro = this.obtenerColorCSS('--negro-periodico', '#1a1a1a');
-    const colorGris = this.obtenerColorCSS('--gris-oscuro', '#555555');
-    const colorHueso = this.obtenerColorCSS('--blanco-hueso', '#f4f1ea');
+    const colorNegro = PanelPrincipal.obtenerColorCSS('--negro-periodico', '#1a1a1a');
+    const colorGris = PanelPrincipal.obtenerColorCSS('--gris-oscuro', '#555555');
+    const colorHueso = PanelPrincipal.obtenerColorCSS('--blanco-hueso', '#f4f1ea');
 
     setTimeout(() => {
       const ctx = document.getElementById('canvasUsuarios');
@@ -109,11 +181,15 @@ export class PanelPrincipal implements OnInit {
     }, 100);
   }
 
+  /**
+   * Renderiza un gráfico de barras (bar) de Chart.js mostrando la cantidad de noticias por categoría.
+   * Destruye el gráfico anterior si ya existía para evitar superposiciones.
+   * @returns {void}
+   */
   dibujarGraficoNoticias() {
-    if (this.graficoNoticias) this.graficoNoticias.destroy();
+    if (this.graficoNoticias) (this.graficoNoticias as { destroy: () => void }).destroy();
 
- 
-    const colorNegro = this.obtenerColorCSS('--negro-periodico', '#1a1a1a');
+    const colorNegro = PanelPrincipal.obtenerColorCSS('--negro-periodico', '#1a1a1a');
 
     setTimeout(() => {
       const ctx = document.getElementById('canvasNoticias');
@@ -126,7 +202,6 @@ export class PanelPrincipal implements OnInit {
           datasets: [{
             label: 'Columnas Impresas',
             data: [this.cntPolitica, this.cntEconomia, this.cntCultura, this.cntDeportes, this.cntTecnologia],
-            // Usamos el color dinámico traído del CSS
             backgroundColor: colorNegro,
             borderColor: colorNegro,
             borderWidth: 1,
